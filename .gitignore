@@ -14,3 +14,14 @@ credentials.*
 # Node.js
 node_modules/
 package-lock.json
+
+# Next.js build output
+.next/
+out/
+
+# 抓網站的快取（開發工具用）
+.firecrawl/
+
+# IDE / OS
+.DS_Store
+*.log
