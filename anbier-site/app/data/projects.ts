@@ -60,7 +60,7 @@ export const projects: Project[] = [
     year: "2025",
     location: "台北 大安",
     cover: "/placeholder/residence_04421707052025.jpg",
-    gallery: gallery("pleasant", 9, { 2: "png", 3: "png" }),
+    gallery: gallery("pleasant", 9),
     info: {
       坪數: "42 坪",
       類型: "新成屋",
