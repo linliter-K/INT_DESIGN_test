@@ -12,13 +12,13 @@
 - 📋 **開發實際目錄（用這個）**：`C:\Users\User\Projects\INT_DESIGN_test\`
 - 📋 Drive 版（舊複本、目前僅含 CLAUDE.md + tools/）：`G:\我的雲端硬碟\INT_DESIGN_test\`
 - 🐙 GitHub repo：`linliter-K/INT_DESIGN_test`（Git 是跨電腦同步的真正方式）
-- 📘 Obsidian 駕駛艙：`G:\我的雲端硬碟\OBSIDIAN\OBSIDIAN K\01 - Projects\INT_DESIGN_test\工作筆記.md`
+- 📘 Obsidian 駕駛艙：`G:\我的雲端硬碟\OBSIDIAN\INT_DESIGN_test\工作筆記.md`
 
 **跨電腦工作流**：一律用 `git pull` / `git push`，不要依賴 Drive。
 
 ## 對話開始時請先讀
 1. 工作目錄先切到 `C:\Users\User\Projects\INT_DESIGN_test\anbier-site\`
-2. 進度與最近更動在 Obsidian：`G:\我的雲端硬碟\OBSIDIAN\OBSIDIAN K\01 - Projects\INT_DESIGN_test\工作筆記.md`
+2. 進度與最近更動在 Obsidian：`G:\我的雲端硬碟\OBSIDIAN\INT_DESIGN_test\工作筆記.md`
 
 ## 技術棧
 - **前端框架**：Next.js 16（App Router、Turbopack）
