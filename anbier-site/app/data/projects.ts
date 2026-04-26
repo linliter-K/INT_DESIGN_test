@@ -35,7 +35,7 @@ export const projects: Project[] = [
     category: "住宅空間",
     year: "2025",
     location: "台北 信義",
-    cover: "/placeholder/residence_41051206052025.jpg",
+    cover: "/placeholder/covers/equilibrium.png",
     gallery: gallery("equilibrium", 15),
     info: {
       坪數: "58 坪",
@@ -59,7 +59,7 @@ export const projects: Project[] = [
     category: "住宅空間",
     year: "2025",
     location: "台北 大安",
-    cover: "/placeholder/residence_04421707052025.jpg",
+    cover: "/placeholder/covers/pleasant.png",
     gallery: gallery("pleasant", 9),
     info: {
       坪數: "42 坪",
@@ -82,7 +82,7 @@ export const projects: Project[] = [
     category: "住宅空間",
     year: "2025",
     location: "新北 林口",
-    cover: "/placeholder/residence_03281122042025.jpg",
+    cover: "/placeholder/covers/yihai.png",
     gallery: gallery("yihai", 26),
     info: {
       坪數: "75 坪",
@@ -105,7 +105,7 @@ export const projects: Project[] = [
     category: "住宅空間",
     year: "2025",
     location: "台北 內湖",
-    cover: "/placeholder/residence_52571007052025.jpg",
+    cover: "/placeholder/covers/serenity.png",
     gallery: gallery("serenity", 17),
     info: {
       坪數: "38 坪",
@@ -128,7 +128,7 @@ export const projects: Project[] = [
     category: "住宅空間",
     year: "2025",
     location: "台北 士林",
-    cover: "/placeholder/residence_18351105052025.jpg",
+    cover: "/placeholder/covers/lambency.png",
     gallery: gallery("lambency", 12),
     info: {
       坪數: "45 坪",
@@ -151,7 +151,7 @@ export const projects: Project[] = [
     category: "住宅空間",
     year: "2025",
     location: "桃園",
-    cover: "/placeholder/residence_13041728042025.jpg",
+    cover: "/placeholder/covers/gathering.png",
     gallery: gallery("gathering", 12),
     info: {
       坪數: "65 坪",
@@ -174,7 +174,7 @@ export const projects: Project[] = [
     category: "住宅空間",
     year: "2023",
     location: "台中",
-    cover: "/placeholder/residence_19451111082023.jpg",
+    cover: "/placeholder/covers/aurora.png",
     gallery: gallery("aurora", 10),
     info: {
       坪數: "50 坪",
@@ -197,7 +197,7 @@ export const projects: Project[] = [
     category: "商業空間",
     year: "2023",
     location: "台北 松山",
-    cover: "/placeholder/residence_38471107092023.jpg",
+    cover: "/placeholder/covers/no2311.png",
     gallery: gallery("no2311", 11),
     info: {
       坪數: "85 坪",
@@ -220,7 +220,7 @@ export const projects: Project[] = [
     category: "住宅空間",
     year: "2022",
     location: "新竹",
-    cover: "/placeholder/residence_04401315062022.jpg",
+    cover: "/placeholder/covers/inner-peace.png",
     gallery: gallery("inner-peace", 16),
     info: {
       坪數: "48 坪",

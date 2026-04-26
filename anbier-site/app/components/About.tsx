@@ -23,7 +23,7 @@ export default function About() {
         >
           <div className="relative aspect-[4/5] overflow-hidden">
             <Image
-              src="/placeholder/residence_52571007052025.jpg"
+              src="/placeholder/covers/serenity.png"
               alt="AMB studio"
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"

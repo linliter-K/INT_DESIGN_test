@@ -12,7 +12,7 @@ export default function Hero() {
       {/* Background image with Ken Burns */}
       <div className="absolute inset-0 animate-kenburns">
         <Image
-          src="/placeholder/residence_41051206052025.jpg"
+          src="/placeholder/covers/equilibrium.png"
           alt="AMB hero"
           fill
           priority
