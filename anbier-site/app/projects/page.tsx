@@ -2,14 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import { projects } from "../data/projects";
+import { getContent } from "../lib/content/store";
 
 export const metadata = {
   title: "作品 Works | AMB 艾柏設計",
   description: "AMB 艾柏設計完整作品列表——住宅、商業、公共空間。",
 };
 
-export default function AllProjectsPage() {
+export default async function AllProjectsPage() {
+  const { projects } = await getContent();
   return (
     <>
       <Nav />

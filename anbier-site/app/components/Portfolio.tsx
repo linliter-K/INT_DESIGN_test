@@ -3,17 +3,23 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { projects } from "../data/projects";
+import type { SiteContent } from "../lib/content/types";
 import SectionHeading from "./SectionHeading";
 
-export default function Portfolio() {
+export default function Portfolio({
+  portfolio,
+  projects,
+}: {
+  portfolio: SiteContent["portfolio"];
+  projects: SiteContent["projects"];
+}) {
   return (
     <section id="portfolio" className="py-28 lg:py-40 px-6 lg:px-12">
       <div className="max-w-[1400px] mx-auto">
         <SectionHeading
-          kicker="SELECTED WORKS"
-          title="近期作品"
-          subtitle="從住宅到商業空間，每個案子都是一次關於生活方式的提案。以下為 AMB 近期部分作品選粹。"
+          kicker={portfolio.kicker}
+          title={portfolio.title}
+          subtitle={portfolio.subtitle}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">

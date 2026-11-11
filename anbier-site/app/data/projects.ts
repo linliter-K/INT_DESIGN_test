@@ -2,19 +2,13 @@ export type Project = {
   id: string;
   title: string;
   titleEn: string;
-  category: "住宅空間" | "商業空間" | "公共空間";
+  category: string;
   year: string;
   location: string;
   cover: string;
   gallery: string[];
-  info: {
-    坪數: string;
-    類型: string;
-    格局: string;
-    風格: string;
-    工期: string;
-    主材: string;
-  };
+  // 後台可自由增減欄位，所以不寫死 key
+  info: Record<string, string>;
   description: string[];
   concept: string;
 };
@@ -237,7 +231,3 @@ export const projects: Project[] = [
     concept: "心之所安，便是吾鄉。",
   },
 ];
-
-export function getProject(id: string): Project | undefined {
-  return projects.find((p) => p.id === id);
-}

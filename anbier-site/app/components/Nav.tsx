@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 const links = [
   { key: "home", label: "首頁", en: "Home" },
   { key: "portfolio", label: "作品", en: "Works" },
+  { key: "materials", label: "材質", en: "Materials" },
   { key: "services", label: "服務", en: "Services" },
   { key: "about", label: "關於", en: "About" },
   { key: "contact", label: "聯絡", en: "Contact" },
@@ -15,6 +16,7 @@ const links = [
 
 function resolveHref(key: string, isHome: boolean) {
   if (key === "home") return "/";
+  if (key === "materials") return "/materials";
   // 所有 section（包含作品）：在首頁就用 hash 滾動，不在首頁就跳回首頁 + 滾到對應 section
   return isHome ? `#${key}` : `/#${key}`;
 }

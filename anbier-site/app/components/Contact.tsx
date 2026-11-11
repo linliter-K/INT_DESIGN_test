@@ -2,8 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import RichText from "./RichText";
+import type { SiteContent } from "../lib/content/types";
 
-export default function Contact() {
+export default function Contact({
+  contact,
+}: {
+  contact: SiteContent["contact"];
+}) {
   const [submitted, setSubmitted] = useState(false);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -25,17 +31,14 @@ export default function Contact() {
           <div className="flex items-center gap-4 mb-6">
             <span className="h-px w-10 bg-accent" />
             <span className="text-accent text-xs tracking-[0.5em]">
-              GET IN TOUCH
+              {contact.kicker}
             </span>
           </div>
           <h2 className="font-serif text-4xl md:text-5xl font-light leading-[1.1] mb-8">
-            談談你的
-            <br />
-            <span className="italic text-accent">理想空間</span>
+            <RichText text={contact.title} />
           </h2>
           <p className="text-foreground/70 leading-relaxed mb-12">
-            不論是正在裝修的新家、想翻新的老宅，或是品牌開店計畫——
-            留下訊息，我們會在 1 個工作日內回覆。
+            {contact.intro}
           </p>
 
           <div className="space-y-6 text-sm">
@@ -43,25 +46,26 @@ export default function Contact() {
               <div className="text-[10px] tracking-[0.4em] text-accent mb-2">
                 STUDIO
               </div>
-              <p className="text-foreground/80 leading-relaxed">
-                台北市大安區仁愛路四段 XXX 號 X 樓
-                <br />
-                （暫定地址，待替換）
+              <p className="text-foreground/80 leading-relaxed whitespace-pre-line">
+                {contact.address}
               </p>
             </div>
             <div>
               <div className="text-[10px] tracking-[0.4em] text-accent mb-2">
                 CONTACT
               </div>
-              <p className="text-foreground/80">+886-2-XXXX-XXXX</p>
-              <p className="text-foreground/80">hello@anbier.design</p>
+              <p className="text-foreground/80">{contact.phone}</p>
+              <p className="text-foreground/80">{contact.email}</p>
             </div>
             <div>
               <div className="text-[10px] tracking-[0.4em] text-accent mb-2">
                 HOURS
               </div>
-              <p className="text-foreground/80">週一至週五 10:00 – 19:00</p>
-              <p className="text-foreground/80">週末採預約制</p>
+              {contact.hours.map((h, i) => (
+                <p key={i} className="text-foreground/80">
+                  {h}
+                </p>
+              ))}
             </div>
           </div>
         </motion.div>
@@ -76,10 +80,10 @@ export default function Contact() {
           {submitted ? (
             <div className="h-full flex flex-col items-center justify-center text-center py-20">
               <div className="font-serif text-3xl text-accent mb-4">
-                訊息已送出
+                {contact.successTitle}
               </div>
               <p className="text-foreground/70 max-w-sm">
-                感謝您的來信，AMB 團隊會於 1 個工作日內與您聯繫。
+                {contact.successText}
               </p>
             </div>
           ) : (

@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import RichText from "./RichText";
+import type { SiteContent } from "../lib/content/types";
 
-export default function Hero() {
+export default function Hero({ hero }: { hero: SiteContent["hero"] }) {
   return (
     <section
       id="home"
@@ -12,7 +14,7 @@ export default function Hero() {
       {/* Background image with Ken Burns */}
       <div className="absolute inset-0 animate-kenburns">
         <Image
-          src="/placeholder/covers/equilibrium.png"
+          src={hero.image}
           alt="AMB hero"
           fill
           priority
@@ -27,7 +29,7 @@ export default function Hero() {
 
       {/* Vertical text on side */}
       <div className="hidden lg:block absolute left-12 top-1/2 -translate-y-1/2 [writing-mode:vertical-rl] text-xs tracking-[0.5em] text-foreground/50">
-        INTERIOR · ARCHITECTURE · SPACE
+        {hero.sideText}
       </div>
 
       {/* Main content */}
@@ -44,18 +46,15 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-accent text-xs tracking-[0.5em] mb-6"
           >
-            — AMB INTERIOR DESIGN
+            {hero.kicker}
           </motion.p>
 
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light leading-[1.05] text-foreground mb-8">
-            在光影之間
-            <br />
-            <span className="text-accent italic">雕塑</span>生活
+            <RichText text={hero.title} />
           </h1>
 
           <p className="text-foreground/70 text-base md:text-lg max-w-xl leading-relaxed tracking-wide mb-10">
-            以工業風的沉穩骨架，承載現代生活的輕盈。
-            AMB 艾柏設計相信，空間不只是容器，而是敘事本身。
+            {hero.subtitle}
           </p>
 
           <div className="flex flex-wrap gap-4">
@@ -64,7 +63,7 @@ export default function Hero() {
               className="group relative px-8 py-4 overflow-hidden border border-accent/50 text-sm tracking-[0.3em]"
             >
               <span className="relative z-10 group-hover:text-background transition-colors duration-500">
-                探索作品
+                {hero.ctaPrimary}
               </span>
               <span className="absolute inset-0 bg-accent -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
             </a>
@@ -72,7 +71,7 @@ export default function Hero() {
               href="#contact"
               className="px-8 py-4 text-sm tracking-[0.3em] text-foreground/80 hover:text-accent transition-colors"
             >
-              預約諮詢 →
+              {hero.ctaSecondary}
             </a>
           </div>
         </motion.div>

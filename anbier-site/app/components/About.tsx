@@ -2,15 +2,10 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import RichText from "./RichText";
+import type { SiteContent } from "../lib/content/types";
 
-const stats = [
-  { num: "15+", label: "設計年資", en: "Years" },
-  { num: "200+", label: "完工案件", en: "Projects" },
-  { num: "98%", label: "客戶滿意度", en: "Satisfaction" },
-  { num: "12", label: "設計獎項", en: "Awards" },
-];
-
-export default function About() {
+export default function About({ about }: { about: SiteContent["about"] }) {
   return (
     <section id="about" className="py-28 lg:py-40 px-6 lg:px-12">
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
@@ -23,7 +18,7 @@ export default function About() {
         >
           <div className="relative aspect-[4/5] overflow-hidden">
             <Image
-              src="/placeholder/covers/serenity.png"
+              src={about.image}
               alt="AMB studio"
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"
@@ -44,34 +39,24 @@ export default function About() {
           <div className="flex items-center gap-4 mb-6">
             <span className="h-px w-10 bg-accent" />
             <span className="text-accent text-xs tracking-[0.5em]">
-              ABOUT AMB
+              {about.kicker}
             </span>
           </div>
 
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light leading-[1.1] mb-8">
-            讓每一處轉角，
-            <br />
-            都有<span className="italic text-accent">被凝視</span>的理由。
+            <RichText text={about.title} />
           </h2>
 
           <div className="space-y-5 text-foreground/70 leading-relaxed mb-12">
-            <p>
-              AMB 艾柏設計成立於 2009
-              年，從一間小型設計工作室出發，至今已完成超過 200
-              件住宅與商業空間設計。我們相信「設計是生活的骨架」——
-              每一次規劃都從屋主的日常節奏開始。
-            </p>
-            <p>
-              以工業風與現代風為我們的設計語彙核心，但不拘泥於單一風格；
-              依據每位業主的個性與需求，靈活融入日式、北歐、輕奢、
-              侘寂等不同元素，創造出真正屬於你的場所。
-            </p>
+            {about.paragraphs.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-white/10">
-            {stats.map((s, i) => (
+            {about.stats.map((s, i) => (
               <motion.div
-                key={s.label}
+                key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

@@ -3,10 +3,16 @@ import Link from "next/link";
 import Image from "next/image";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
-import { projects, getProject } from "../../data/projects";
+import { getContent } from "../../lib/content/store";
+
+async function findProject(id: string) {
+  const { projects } = await getContent();
+  return { projects, project: projects.find((p) => p.id === id) };
+}
 import ProjectGallery from "./ProjectGallery";
 
 export async function generateStaticParams() {
+  const { projects } = await getContent();
   return projects.map((p) => ({ id: p.id }));
 }
 
@@ -16,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const p = getProject(id);
+  const { project: p } = await findProject(id);
   if (!p) return {};
   return {
     title: `${p.title} ${p.titleEn} | AMB 艾柏設計`,
@@ -30,7 +36,7 @@ export default async function ProjectPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const project = getProject(id);
+  const { projects, project } = await findProject(id);
   if (!project) notFound();
 
   const idx = projects.findIndex((p) => p.id === id);
