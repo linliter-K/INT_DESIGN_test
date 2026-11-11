@@ -1,8 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import Link from "next/link";
+import { Heart, X } from "lucide-react";
 import RichText from "./RichText";
+import { useMoodboard } from "../lib/moodboard";
+import { submitInquiry } from "../actions/inquiry";
 import type { SiteContent } from "../lib/content/types";
 
 export default function Contact({
@@ -11,11 +15,32 @@ export default function Contact({
   contact: SiteContent["contact"];
 }) {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [sending, startSending] = useTransition();
+  const { items: refs, remove, clear } = useMoodboard();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO: hook up to Firebase / email service in Phase 3
-    setSubmitted(true);
+    const fd = new FormData(e.currentTarget);
+    setError(null);
+    startSending(async () => {
+      const res = await submitInquiry({
+        name: String(fd.get("name") ?? ""),
+        phone: String(fd.get("phone") ?? ""),
+        email: String(fd.get("email") ?? ""),
+        size: String(fd.get("size") ?? ""),
+        services: fd.getAll("service").map(String),
+        message: String(fd.get("message") ?? ""),
+        website: String(fd.get("website") ?? ""),
+        refs,
+      }).catch(() => ({ ok: false as const, error: "網路連線異常，請稍後再試" }));
+      if (res.ok) {
+        setSubmitted(true);
+        clear();
+      } else {
+        setError(res.error);
+      }
+    });
   }
 
   return (
@@ -137,12 +162,53 @@ export default function Contact({
                 />
               </div>
 
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="block text-[10px] tracking-[0.4em] text-accent">
+                    參考清單{refs.length > 0 && `（${refs.length} 張，將一併附上）`}
+                  </span>
+                </div>
+                {refs.length > 0 ? (
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                    {refs.map((r) => (
+                      <div key={r.image} className="group relative aspect-square bg-background overflow-hidden" title={r.title}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={r.image} alt={r.title} className="absolute inset-0 w-full h-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => remove(r.image)}
+                          aria-label={`移除 ${r.title}`}
+                          className="absolute top-1 right-1 w-6 h-6 grid place-items-center rounded-full bg-background/80 text-foreground/80 hover:text-red-400"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-foreground/50 leading-relaxed border border-dashed border-white/15 px-4 py-4 flex items-center gap-2 flex-wrap">
+                    <Heart size={14} className="text-accent shrink-0" />
+                    瀏覽
+                    <Link href="/projects" className="text-accent hover:underline">作品</Link>
+                    或
+                    <Link href="/materials" className="text-accent hover:underline">材質</Link>
+                    時點愛心，喜歡的圖片會出現在這裡，讓我們更快抓到你要的風格。
+                  </p>
+                )}
+              </div>
+
+              {/* 蜜罐欄位，擋垃圾機器人 */}
+              <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+
+              {error && <p className="text-sm text-red-400">{error}</p>}
+
               <button
                 type="submit"
-                className="group relative px-10 py-4 overflow-hidden border border-accent text-sm tracking-[0.3em] w-full md:w-auto"
+                disabled={sending}
+                className="group relative px-10 py-4 disabled:opacity-60 overflow-hidden border border-accent text-sm tracking-[0.3em] w-full md:w-auto"
               >
                 <span className="relative z-10 group-hover:text-background transition-colors duration-500">
-                  送出詢問
+                  {sending ? "送出中…" : "送出詢問"}
                 </span>
                 <span className="absolute inset-0 bg-accent -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
               </button>

@@ -56,9 +56,16 @@ export async function readContentUncached(): Promise<SiteContent> {
   return stored ? mergeWithDefaults(stored) : defaultContent;
 }
 
-export const getContent = unstable_cache(readContentUncached, [CONTENT_TAG], {
+// 只快取「存進去的原始資料」，預設值每次讀取時才合併：
+// 這樣程式新增區塊（例如軟裝）時，舊快取不會缺欄位導致整頁壞掉
+const readStoredCached = unstable_cache(readStored, [CONTENT_TAG, "stored-v2"], {
   tags: [CONTENT_TAG],
 });
+
+export async function getContent(): Promise<SiteContent> {
+  const stored = await readStoredCached();
+  return stored ? mergeWithDefaults(stored) : defaultContent;
+}
 
 export async function writeContent(content: SiteContent) {
   const json = JSON.stringify(content);

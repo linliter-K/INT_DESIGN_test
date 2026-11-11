@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import MoodboardDock from "./components/MoodboardDock";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,11 +37,11 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link rel="stylesheet" href={CJK_FONTS_URL} />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}
+        <MoodboardDock />
       </body>
     </html>
   );

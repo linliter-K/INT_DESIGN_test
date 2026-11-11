@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { saveContent, logout } from "../actions";
-import type { SiteContent, Project, Material } from "../../lib/content/types";
+import type { SiteContent, Project } from "../../lib/content/types";
 import {
   TextInput,
   TextArea,
@@ -13,12 +13,17 @@ import {
   Grid2,
   RICH_HINT,
   IconBtn,
+  Section,
 } from "./fields";
+import InquiriesPanel from "./InquiriesPanel";
+import CatalogEditor from "./CatalogEditor";
 
 const TABS = [
+  { key: "inquiries", label: "詢問" },
   { key: "home", label: "首頁主視覺" },
   { key: "projects", label: "作品" },
   { key: "materials", label: "材質" },
+  { key: "furnishings", label: "軟裝" },
   { key: "services", label: "服務" },
   { key: "about", label: "關於" },
   { key: "contact", label: "聯絡 / 頁尾" },
@@ -28,13 +33,15 @@ type TabKey = (typeof TABS)[number]["key"];
 export default function AdminEditor({
   initial,
   storageMode,
+  emailConfigured,
 }: {
   initial: SiteContent;
   storageMode: "blob" | "local";
+  emailConfigured: boolean;
 }) {
   const [content, setContent] = useState(initial);
   const [dirty, setDirty] = useState(false);
-  const [tab, setTab] = useState<TabKey>("home");
+  const [tab, setTab] = useState<TabKey>("inquiries");
   const [status, setStatus] = useState<{ ok: boolean; msg: string } | null>(null);
   const [saving, startSaving] = useTransition();
 
@@ -122,6 +129,8 @@ export default function AdminEditor({
       </header>
 
       <main className="max-w-6xl mx-auto px-4 md:px-6 py-8 space-y-8">
+        {tab === "inquiries" && <InquiriesPanel emailConfigured={emailConfigured} />}
+
         {tab === "home" && (
           <>
             <Section title="主視覺（首頁最上方）">
@@ -152,53 +161,23 @@ export default function AdminEditor({
         )}
 
         {tab === "materials" && (
-          <>
-            <Section title="材質頁標題">
-              <TextInput label="小標" value={content.materials.kicker} onChange={(v) => set("materials", { ...content.materials, kicker: v })} />
-              <TextInput label="標題" value={content.materials.title} onChange={(v) => set("materials", { ...content.materials, title: v })} />
-              <TextArea label="說明" value={content.materials.subtitle} onChange={(v) => set("materials", { ...content.materials, subtitle: v })} />
-            </Section>
-            <Section title={`材質卡片（${content.materials.items.length}）`}>
-              <ListEditor<Material>
-                items={content.materials.items}
-                onChange={(v) => set("materials", { ...content.materials, items: v })}
-                title={(m) => m.name || "（未命名）"}
-                addLabel="+ 新增材質"
-                create={() => ({
-                  id: `m-${Date.now()}`,
-                  name: "新材質",
-                  nameEn: "",
-                  category: content.materials.items[0]?.category ?? "其他",
-                  image: "",
-                  description: "",
-                  features: [],
-                  usage: "",
-                })}
-                render={(m, setM) => (
-                  <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6">
-                    <ImageInput label="圖片" aspect="aspect-square" value={m.image} onChange={(v) => setM({ ...m, image: v })} />
-                    <div className="space-y-4">
-                      <Grid2>
-                        <TextInput label="名稱" value={m.name} onChange={(v) => setM({ ...m, name: v })} />
-                        <TextInput label="英文名稱" value={m.nameEn} onChange={(v) => setM({ ...m, nameEn: v })} />
-                      </Grid2>
-                      <TextInput
-                        label="分類"
-                        hint="同樣的分類名稱會自動變成上方的篩選按鈕，例如：石材、木作、金屬"
-                        value={m.category}
-                        onChange={(v) => setM({ ...m, category: v })}
-                      />
-                      <TextArea label="介紹" value={m.description} onChange={(v) => setM({ ...m, description: v })} />
-                      <Grid2>
-                        <LinesInput label="特色標籤" value={m.features} onChange={(v) => setM({ ...m, features: v })} />
-                        <TextInput label="適用位置" value={m.usage} onChange={(v) => setM({ ...m, usage: v })} />
-                      </Grid2>
-                    </div>
-                  </div>
-                )}
-              />
-            </Section>
-          </>
+          <CatalogEditor
+            key="materials"
+            noun="材質"
+            usageLabel="適用位置"
+            section={content.materials}
+            onChange={(v) => set("materials", v)}
+          />
+        )}
+
+        {tab === "furnishings" && (
+          <CatalogEditor
+            key="furnishings"
+            noun="軟裝"
+            usageLabel="適用空間"
+            section={content.furnishings}
+            onChange={(v) => set("furnishings", v)}
+          />
         )}
 
         {tab === "services" && (
@@ -293,15 +272,6 @@ export default function AdminEditor({
         )}
       </main>
     </div>
-  );
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section className="bg-surface border border-white/5">
-      <h2 className="px-6 py-4 border-b border-white/10 font-serif text-xl">{title}</h2>
-      <div className="p-6 space-y-5">{children}</div>
-    </section>
   );
 }
 

@@ -17,6 +17,10 @@ export default async function AdminPage() {
   // 後台一定要讀最新版，不能吃到前台的快取
   const content = await readContentUncached();
   return (
-    <AdminEditor initial={content} storageMode={isBlobEnabled() ? "blob" : "local"} />
+    <AdminEditor
+      initial={content}
+      storageMode={isBlobEnabled() ? "blob" : "local"}
+      emailConfigured={Boolean(process.env.RESEND_API_KEY && process.env.INQUIRY_NOTIFY_EMAIL)}
+    />
   );
 }

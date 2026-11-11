@@ -35,6 +35,7 @@ export default async function Footer() {
               { href: "/#home", label: "首頁" },
               { href: "/#portfolio", label: "作品" },
               { href: "/materials", label: "材質" },
+              { href: "/furnishings", label: "軟裝" },
               { href: "/#services", label: "服務" },
               { href: "/#about", label: "關於" },
               { href: "/#contact", label: "聯絡" },

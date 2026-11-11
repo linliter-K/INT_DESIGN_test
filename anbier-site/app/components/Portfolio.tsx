@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { SiteContent } from "../lib/content/types";
 import SectionHeading from "./SectionHeading";
+import SaveButton from "./SaveButton";
 
 export default function Portfolio({
   portfolio,
@@ -34,6 +35,7 @@ export default function Portfolio({
                 delay: (i % 3) * 0.1,
                 ease: [0.25, 0.1, 0.25, 1],
               }}
+              className="relative"
             >
             <Link
               href={`/projects/${p.id}`}
@@ -76,6 +78,9 @@ export default function Portfolio({
                 </div>
               </div>
             </Link>
+            <SaveButton
+              item={{ kind: "project", image: p.cover, title: p.title, subtitle: p.category, href: `/projects/${p.id}` }}
+            />
             </motion.div>
           ))}
         </div>

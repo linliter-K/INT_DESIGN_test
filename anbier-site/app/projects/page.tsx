@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import SaveButton from "../components/SaveButton";
 import { getContent } from "../lib/content/store";
 
 export const metadata = {
@@ -36,8 +37,8 @@ export default async function AllProjectsPage() {
         <section className="px-6 lg:px-12">
           <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {projects.map((p) => (
+              <div key={p.id} className="relative">
               <Link
-                key={p.id}
                 href={`/projects/${p.id}`}
                 className="group block relative overflow-hidden bg-surface"
               >
@@ -68,6 +69,10 @@ export default async function AllProjectsPage() {
                   </div>
                 </div>
               </Link>
+              <SaveButton
+                item={{ kind: "project", image: p.cover, title: p.title, subtitle: p.category, href: `/projects/${p.id}` }}
+              />
+              </div>
             ))}
           </div>
         </section>

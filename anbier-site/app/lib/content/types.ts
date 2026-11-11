@@ -15,7 +15,7 @@ export type ServiceItem = {
 
 export type Stat = { num: string; label: string; en: string };
 
-export type Material = {
+export type CatalogItem = {
   id: string;
   name: string;
   nameEn: string;
@@ -24,6 +24,18 @@ export type Material = {
   description: string;
   features: string[];
   usage: string;
+};
+
+// 舊名稱保留，材質相關程式不用改
+export type Material = CatalogItem;
+
+export type CatalogSection = {
+  kicker: string;
+  title: string;
+  subtitle: string;
+  // 分類順序 = 前台篩選按鈕順序
+  categories: string[];
+  items: CatalogItem[];
 };
 
 export type SiteContent = {
@@ -67,11 +79,7 @@ export type SiteContent = {
     facebook: string;
     slogan: string;
   };
-  materials: {
-    kicker: string;
-    title: string;
-    subtitle: string;
-    items: Material[];
-  };
+  materials: CatalogSection;
+  furnishings: CatalogSection;
   projects: Project[];
 };

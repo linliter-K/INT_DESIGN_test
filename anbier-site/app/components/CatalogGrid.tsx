@@ -3,12 +3,23 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import type { Material } from "../lib/content/types";
+import type { CatalogItem } from "../lib/content/types";
+import { CATALOG_PATH, type CatalogKind } from "../lib/content/catalog";
+import SaveButton from "./SaveButton";
 
 const ALL = "全部";
 
-export default function MaterialsGrid({ items }: { items: Material[] }) {
-  const categories = [ALL, ...Array.from(new Set(items.map((m) => m.category)))];
+export default function CatalogGrid({
+  kind,
+  items,
+  categoryOrder,
+}: {
+  kind: CatalogKind;
+  items: CatalogItem[];
+  categoryOrder: string[];
+}) {
+  // 沒有材質的分類不顯示按鈕，免得訪客點進去一片空白
+  const categories = [ALL, ...categoryOrder.filter((c) => items.some((m) => m.category === c))];
   const [active, setActive] = useState(ALL);
   const shown = active === ALL ? items : items.filter((m) => m.category === active);
 
@@ -55,6 +66,11 @@ export default function MaterialsGrid({ items }: { items: Material[] }) {
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-110"
                   />
                 )}
+                {m.image && (
+                  <SaveButton
+                    item={{ kind, image: m.image, title: m.name, subtitle: m.category, href: CATALOG_PATH[kind] }}
+                  />
+                )}
                 <span className="absolute top-4 left-4 px-3 py-1 text-[10px] tracking-[0.3em] border border-foreground/30 text-foreground/90 bg-background/40 backdrop-blur-sm">
                   {m.category}
                 </span>
@@ -85,7 +101,7 @@ export default function MaterialsGrid({ items }: { items: Material[] }) {
                 {m.usage && (
                   <div className="mt-auto pt-4 border-t border-white/10">
                     <div className="text-[10px] tracking-[0.4em] text-accent mb-1">
-                      適用位置
+                      {kind === "material" ? "適用位置" : "適用空間"}
                     </div>
                     <p className="text-xs text-foreground/70">{m.usage}</p>
                   </div>

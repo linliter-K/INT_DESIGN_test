@@ -10,6 +10,7 @@ async function findProject(id: string) {
   return { projects, project: projects.find((p) => p.id === id) };
 }
 import ProjectGallery from "./ProjectGallery";
+import SaveButton from "../../components/SaveButton";
 
 export async function generateStaticParams() {
   const { projects } = await getContent();
@@ -58,6 +59,10 @@ export default async function ProjectPage({
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
+          <SaveButton
+            className="absolute top-6 right-6 lg:right-12"
+            item={{ kind: "project", image: project.cover, title: project.title, subtitle: project.category, href: `/projects/${project.id}` }}
+          />
           <div className="absolute inset-0 flex items-end">
             <div className="max-w-[1400px] mx-auto w-full px-6 lg:px-12 pb-16">
               <div className="flex items-center gap-3 text-accent text-xs tracking-[0.4em] mb-5">
@@ -139,12 +144,13 @@ export default async function ProjectPage({
                 </h2>
               </div>
               <div className="text-[10px] tracking-[0.3em] text-foreground/50 hidden md:block">
-                {project.gallery.length} IMAGES · 點擊放大
+                {project.gallery.length} IMAGES · 點擊放大 · ♡ 加入參考清單
               </div>
             </div>
             <ProjectGallery
               images={project.gallery}
               title={project.title}
+              href={`/projects/${project.id}`}
             />
           </div>
         </section>

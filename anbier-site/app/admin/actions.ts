@@ -13,6 +13,7 @@ import {
 } from "../lib/auth";
 import { CONTENT_TAG, writeContent } from "../lib/content/store";
 import type { SiteContent } from "../lib/content/types";
+import { listInquiries, deleteInquiry } from "../lib/inquiries";
 
 async function requireAdmin() {
   const store = await cookies();
@@ -61,4 +62,14 @@ export async function saveContent(content: SiteContent) {
   updateTag(CONTENT_TAG);
   revalidatePath("/", "layout");
   return { savedAt: Date.now() };
+}
+
+export async function fetchInquiries() {
+  await requireAdmin();
+  return listInquiries();
+}
+
+export async function removeInquiry(id: string) {
+  await requireAdmin();
+  await deleteInquiry(id);
 }

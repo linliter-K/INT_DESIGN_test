@@ -364,3 +364,12 @@ export function ListEditor<T>({
 export function Grid2({ children }: { children: ReactNode }) {
   return <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>;
 }
+
+export function Section({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section className="bg-surface border border-white/5">
+      <h2 className="px-6 py-4 border-b border-white/10 font-serif text-xl">{title}</h2>
+      <div className="p-6 space-y-5">{children}</div>
+    </section>
+  );
+}

@@ -3,14 +3,25 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
+import SaveButton from "../../components/SaveButton";
 
 export default function ProjectGallery({
   images,
   title,
+  href,
 }: {
   images: string[];
   title: string;
+  href: string;
 }) {
+  const moodItem = (src: string, i: number) => ({
+    kind: "project" as const,
+    image: src,
+    title,
+    subtitle: `影像 ${String(i + 1).padStart(2, "0")}`,
+    href,
+  });
+
   const [active, setActive] = useState<number | null>(null);
 
   const close = useCallback(() => setActive(null), []);
@@ -47,15 +58,22 @@ export default function ProjectGallery({
         {images.map((src, i) => {
           const isHero = i === 0;
           return (
-            <motion.button
+            <motion.div
               key={src}
-              type="button"
+              role="button"
+              tabIndex={0}
               onClick={() => setActive(i)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setActive(i);
+                }
+              }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.7, delay: (i % 4) * 0.08 }}
-              className={`group relative overflow-hidden bg-surface ${
+              className={`group relative overflow-hidden bg-surface cursor-zoom-in ${
                 isHero ? "md:col-span-2 aspect-[16/9]" : "aspect-[4/3]"
               }`}
             >
@@ -79,7 +97,8 @@ export default function ProjectGallery({
               <span className="absolute top-4 left-4 text-[10px] tracking-[0.3em] text-foreground/50">
                 {String(i + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
               </span>
-            </motion.button>
+              <SaveButton item={moodItem(src, i)} />
+            </motion.div>
           );
         })}
       </div>
@@ -151,6 +170,10 @@ export default function ProjectGallery({
               </svg>
             </button>
 
+            <SaveButton
+              className="absolute bottom-5 right-5 md:right-12"
+              item={moodItem(images[active], active)}
+            />
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs tracking-[0.3em] text-foreground/60">
               {String(active + 1).padStart(2, "0")} /{" "}
               {String(images.length).padStart(2, "0")}
