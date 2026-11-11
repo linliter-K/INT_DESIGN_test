@@ -14,8 +14,8 @@
   --color-accent: var(--accent);
   --color-muted: var(--muted);
   --color-surface: var(--surface);
-  --font-sans: var(--font-noto-sans-tc), var(--font-geist-sans), system-ui, sans-serif;
-  --font-serif: var(--font-noto-serif-tc), "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Noto Sans TC", var(--font-geist-sans), system-ui, sans-serif;
+  --font-serif: "Noto Serif TC", "Cormorant Garamond", Georgia, serif;
   --font-mono: var(--font-geist-mono);
 }
 

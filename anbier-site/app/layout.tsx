@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Sans_TC, Noto_Serif_TC } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,17 +12,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const notoSansTC = Noto_Sans_TC({
-  variable: "--font-noto-sans-tc",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
-});
-
-const notoSerifTC = Noto_Serif_TC({
-  variable: "--font-noto-serif-tc",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
-});
+// 中文字型改由瀏覽器直接向 Google Fonts 載入：next/font 在 build 時要下載數百個 CJK 分檔，
+// 任一個失敗就整個 build 失敗（2026-11-11 Vercel 部署踩過）
+const CJK_FONTS_URL =
+  "https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@300;400;500;700&display=swap";
 
 export const metadata: Metadata = {
   title: "AMB 艾柏設計 | 室內設計 Interior Design",
@@ -38,8 +31,14 @@ export default function RootLayout({
   return (
     <html
       lang="zh-Hant"
-      className={`${geistSans.variable} ${geistMono.variable} ${notoSansTC.variable} ${notoSerifTC.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link rel="stylesheet" href={CJK_FONTS_URL} />
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}
       </body>
