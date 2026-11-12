@@ -18,10 +18,14 @@ import {
 import InquiriesPanel from "./InquiriesPanel";
 import CatalogEditor from "./CatalogEditor";
 import UsersPanel from "./UsersPanel";
+import AnalyticsPanel from "./AnalyticsPanel";
+import { SortableList, SortableItem, arrayMove } from "./sortable";
+import { NO_TRACK_KEY } from "../../lib/track";
 import type { AdminSession } from "../../lib/session";
 
 const TABS = [
   { key: "inquiries", label: "詢問" },
+  { key: "analytics", label: "數據" },
   { key: "home", label: "首頁主視覺" },
   { key: "projects", label: "作品" },
   { key: "materials", label: "材質" },
@@ -49,6 +53,13 @@ export default function AdminEditor({
   const [tab, setTab] = useState<TabKey>("inquiries");
   const [status, setStatus] = useState<{ ok: boolean; msg: string } | null>(null);
   const [saving, startSaving] = useTransition();
+
+  // 登入過後台的瀏覽器之後逛前台不算進數據，避免自己人灌水
+  useEffect(() => {
+    try {
+      localStorage.setItem(NO_TRACK_KEY, "1");
+    } catch {}
+  }, []);
 
   // 防止改了一堆忘記存就關掉分頁
   useEffect(() => {
@@ -140,6 +151,17 @@ export default function AdminEditor({
       <main className="max-w-6xl mx-auto px-4 md:px-6 py-8 space-y-8">
         {tab === "inquiries" && <InquiriesPanel emailConfigured={emailConfigured} />}
         {tab === "users" && session.isOwner && <UsersPanel />}
+        {tab === "analytics" && (
+          <AnalyticsPanel
+            pageNames={{
+              "/": "首頁",
+              "/projects": "作品總覽",
+              "/materials": "材質",
+              "/furnishings": "軟裝",
+              ...Object.fromEntries(content.projects.map((p) => [`/projects/${p.id}`, `作品｜${p.title}`])),
+            }}
+          />
+        )}
 
         {tab === "home" && (
           <>
@@ -371,15 +393,25 @@ function ProjectsEditor({
     setSel(j);
   }
 
+  function drag(from: number, to: number) {
+    const selectedId = projects[sel]?.id;
+    const next = arrayMove(projects, from, to);
+    onChange(next);
+    // 選取跟著原本那件作品走，不要停在同一個位置變成別件
+    setSel(Math.max(0, next.findIndex((x) => x.id === selectedId)));
+  }
+
   const infoRows = Object.entries(p?.info ?? {});
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
       <aside className="bg-surface border border-white/5 self-start lg:sticky lg:top-32">
+        <div className="px-3 py-2 text-[10px] text-foreground/40 border-b border-white/5">按住拖曳可調整作品順序</div>
         <div className="max-h-[60vh] overflow-y-auto">
+          <SortableList ids={projects.map((x) => x.id)} onMove={drag}>
           {projects.map((x, i) => (
+            <SortableItem key={x.id} id={x.id} className="touch-manipulation">
             <button
-              key={`${x.id}-${i}`}
               onClick={() => setSel(i)}
               className={`w-full flex items-center gap-3 px-3 py-2 text-left border-b border-white/5 transition-colors ${
                 i === sel ? "bg-accent/15" : "hover:bg-white/5"
@@ -388,7 +420,7 @@ function ProjectsEditor({
               <span className="relative w-10 h-12 shrink-0 bg-background overflow-hidden">
                 {x.cover && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={x.cover} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                  <img src={x.cover} alt="" draggable={false} className="absolute inset-0 w-full h-full object-cover" />
                 )}
               </span>
               <span className="min-w-0">
@@ -396,7 +428,9 @@ function ProjectsEditor({
                 <span className="block text-[10px] text-foreground/40 truncate">{x.category} · {x.year}</span>
               </span>
             </button>
+            </SortableItem>
           ))}
+          </SortableList>
         </div>
         <button onClick={add} className="w-full py-3 text-xs tracking-[0.3em] text-accent hover:bg-accent/10">
           + 新增作品

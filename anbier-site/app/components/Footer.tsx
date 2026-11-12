@@ -14,8 +14,8 @@ export default async function Footer() {
   return (
     <footer className="border-t border-white/10 bg-background">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-14">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
-          <div className="col-span-2 md:col-span-1">
+        <div className="grid grid-cols-2 gap-10 mb-12 md:flex md:justify-between">
+          <div className="col-span-2 md:max-w-[260px]">
             <div className="flex items-baseline gap-2 mb-4">
               <span className="font-serif text-xl tracking-[0.3em]">
                 AMB
@@ -71,6 +71,10 @@ export default async function Footer() {
   );
 }
 
+// 每 4 個連結換一列（照順序填滿再換），頁尾才不會拉得很長
+// （導覽 7 個 → 首頁/作品/材質/軟裝 | 服務/關於/聯絡）
+const PER_COLUMN = 4;
+
 function FooterCol({
   title,
   links,
@@ -78,21 +82,29 @@ function FooterCol({
   title: string;
   links: { href: string; label: string }[];
 }) {
+  const columns: (typeof links)[] = [];
+  for (let i = 0; i < links.length; i += PER_COLUMN) {
+    columns.push(links.slice(i, i + PER_COLUMN));
+  }
   return (
     <div>
       <h4 className="text-[10px] tracking-[0.4em] text-accent mb-4">{title}</h4>
-      <ul className="space-y-2">
-        {links.map((l, i) => (
-          <li key={i}>
-            <a
-              href={l.href}
-              className="text-xs text-foreground/60 hover:text-accent transition-colors"
-            >
-              {l.label}
-            </a>
-          </li>
+      <div className="flex gap-x-10">
+        {columns.map((col, c) => (
+          <ul key={c} className="space-y-2">
+            {col.map((l, i) => (
+              <li key={i}>
+                <a
+                  href={l.href}
+                  className="text-xs text-foreground/60 hover:text-accent transition-colors whitespace-nowrap"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

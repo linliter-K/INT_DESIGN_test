@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { after } from "next/server";
 import { getContent } from "../lib/content/store";
 import { KIND_LABEL, type RefKind } from "../lib/content/catalog";
+import { recordEvent } from "../lib/analytics";
 import { saveInquiry, sendInquiryEmail, type Inquiry, type InquiryRef } from "../lib/inquiries";
 
 const MAX_REFS = 30;
@@ -81,6 +82,7 @@ export async function submitInquiry(input: {
   after(async () => {
     const result = await sendInquiryEmail(inquiry, origin).catch((e) => ({ sent: false, reason: String(e) }));
     if (!result.sent) console.warn("詢問通知信未寄出：", result.reason);
+    await recordEvent({ t: "inquiry" }).catch(() => {});
   });
 
   return { ok: true };

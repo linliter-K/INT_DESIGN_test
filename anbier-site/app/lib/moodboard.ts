@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import type { RefKind } from "./content/catalog";
+import { track } from "./track";
 
 export type MoodItem = {
   kind: RefKind;
@@ -68,6 +69,8 @@ export function useMoodboard() {
       }
       if (current.length >= MOODBOARD_MAX) return false;
       write([...current, item]);
+      // 只記「加入」，取消不扣分：要知道的是客人「曾經喜歡過」哪些
+      track({ t: "save", image: item.image, title: item.title, kind: item.kind, href: item.href });
       return true;
     },
     remove: (image: string) => write(read().filter((i) => i.image !== image)),

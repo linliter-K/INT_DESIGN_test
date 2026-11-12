@@ -1,6 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import {
+  DndContext,
+  closestCenter,
+  pointerWithin,
+  type CollisionDetection,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { SortableItem, arrayMove, useDragSensors } from "./sortable";
 import type { CatalogItem, CatalogSection } from "../../lib/content/types";
 import { catalogCategories } from "../../lib/content/catalog";
 import {
@@ -15,6 +24,22 @@ import {
 } from "./fields";
 
 const ALL = "__all__";
+const CAT = "cat:";
+const ITEM = "item:";
+
+// 拖分類只能撞到分類；拖品項可以撞到品項（排序）或左側分類（換分類）
+const collision: CollisionDetection = (args) => {
+  const isCat = String(args.active.id).startsWith(CAT);
+  const droppableContainers = args.droppableContainers.filter((d) =>
+    isCat ? String(d.id).startsWith(CAT) : true
+  );
+  const hit = pointerWithin({ ...args, droppableContainers });
+  if (hit.length) return hit;
+  return closestCenter({
+    ...args,
+    droppableContainers: droppableContainers.filter((d) => String(d.id).startsWith(isCat ? CAT : ITEM)),
+  });
+};
 
 function newMaterialId() {
   return `m-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
@@ -37,6 +62,15 @@ export default function CatalogEditor({
   const [newCat, setNewCat] = useState("");
   const [renaming, setRenaming] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // 預設全部收合只看縮圖＋名稱，品項一多才好找；要改細項再個別展開
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
+  const toggle = (id: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
 
   // 被刪掉或改名的分類不能繼續停在選取狀態
   const current = sel === ALL || categories.includes(sel) ? sel : ALL;
@@ -113,6 +147,36 @@ export default function CatalogEditor({
     update({ items });
   }
 
+  const sensors = useDragSensors();
+  const [notice, setNotice] = useState<string | null>(null);
+
+  function onDragEnd({ active, over }: DragEndEvent) {
+    if (!over || active.id === over.id) return;
+    const a = String(active.id);
+    const o = String(over.id);
+    if (a.startsWith(CAT) && o.startsWith(CAT)) {
+      const from = categories.indexOf(a.slice(CAT.length));
+      const to = categories.indexOf(o.slice(CAT.length));
+      if (from >= 0 && to >= 0) update({ categories: arrayMove(categories, from, to) });
+      return;
+    }
+    if (!a.startsWith(ITEM)) return;
+    const from = materials.items.findIndex((m) => m.id === a.slice(ITEM.length));
+    if (from < 0) return;
+    if (o.startsWith(CAT)) {
+      const category = o.slice(CAT.length);
+      const m = materials.items[from];
+      if (m.category === category) return;
+      // 移到新分類的最後面，跟手動改分類下拉的結果一致
+      const rest = materials.items.filter((_, i) => i !== from);
+      update({ items: [...rest, { ...m, category }] });
+      setNotice(`「${m.name}」已移到「${category}」`);
+      return;
+    }
+    const to = materials.items.findIndex((m) => m.id === o.slice(ITEM.length));
+    if (to >= 0) update({ items: arrayMove(materials.items, from, to) });
+  }
+
   function removeItem(index: number) {
     const m = materials.items[index];
     if (!window.confirm(`確定刪除「${m.name || "未命名"}」？`)) return;
@@ -121,12 +185,15 @@ export default function CatalogEditor({
 
   function addItem() {
     const category = current === ALL ? categories[0] ?? "其他" : current;
+    const id = newMaterialId();
+    // 新增的通常馬上要填資料，直接展開
+    setExpanded((prev) => new Set(prev).add(id));
     update({
       categories: categories.includes(category) ? categories : [...categories, category],
       items: [
         ...materials.items,
         {
-          id: newMaterialId(),
+          id,
           name: `新${noun}`,
           nameEn: "",
           category,
@@ -147,12 +214,14 @@ export default function CatalogEditor({
         <TextArea label="說明" value={materials.subtitle} onChange={(v) => update({ subtitle: v })} />
       </Section>
 
+      <DndContext sensors={sensors} collisionDetection={collision} onDragEnd={onDragEnd} onDragStart={() => setNotice(null)}>
       <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
         <aside className="bg-surface border border-white/5 self-start lg:sticky lg:top-32">
           <div className="px-4 py-3 border-b border-white/10 text-[11px] tracking-[0.2em] text-accent">
             分類
           </div>
           <CategoryRow label="全部" count={materials.items.length} active={current === ALL} onClick={() => setSel(ALL)} />
+          <SortableContext items={categories.map((c) => CAT + c)} strategy={verticalListSortingStrategy}>
           {categories.map((c) => (
             <div key={c} className="group relative">
               {renaming === c ? (
@@ -167,10 +236,16 @@ export default function CatalogEditor({
                   className="w-full bg-background border border-accent outline-none px-4 py-2.5 text-sm"
                 />
               ) : (
-                <CategoryRow label={c} count={count(c)} active={current === c} onClick={() => setSel(c)} />
+                <SortableItem id={CAT + c} className="touch-manipulation">
+                  <CategoryRow label={c} count={count(c)} active={current === c} onClick={() => setSel(c)} />
+                </SortableItem>
               )}
             </div>
           ))}
+          </SortableContext>
+          <p className="px-4 py-2 text-[10px] leading-relaxed text-foreground/40">
+            拖曳分類可調整順序；把右側{noun}拖到這裡的分類上可直接換分類
+          </p>
           <div className="p-3 border-t border-white/10 space-y-2">
             <div className="flex gap-2">
               <input
@@ -211,7 +286,15 @@ export default function CatalogEditor({
               </div>
             )}
           </div>
+          {shown.length > 0 && (
+            <div className="flex justify-end gap-3 text-xs text-foreground/50">
+              <button type="button" onClick={() => setExpanded(new Set(shown.map(({ m }) => m.id)))} className="hover:text-accent">全部展開</button>
+              <span className="text-foreground/20">|</span>
+              <button type="button" onClick={() => setExpanded(new Set())} className="hover:text-accent">全部收合</button>
+            </div>
+          )}
           {error && <p className="text-sm text-red-400">{error}</p>}
+          {notice && <p className="text-sm text-green-400">{notice}</p>}
 
           {shown.length === 0 && (
             <p className="text-foreground/50 text-sm border border-dashed border-white/15 px-4 py-6 text-center">
@@ -219,20 +302,51 @@ export default function CatalogEditor({
             </p>
           )}
 
-          {shown.map(({ m, index }, pos) => (
-            <div key={m.id} className="border border-white/10 bg-surface">
-              <div className="flex items-center justify-between px-4 py-2 border-b border-white/10">
-                <span className="text-sm text-foreground/80">
-                  <span className="text-accent mr-2">{String(pos + 1).padStart(2, "0")}</span>
-                  {m.name || "（未命名）"}
-                  {current === ALL && <span className="ml-2 text-xs text-foreground/40">{m.category}</span>}
-                </span>
-                <div className="flex">
+          <SortableContext items={shown.map(({ m }) => ITEM + m.id)} strategy={verticalListSortingStrategy}>
+          {shown.map(({ m, index }, pos) => {
+            const open = expanded.has(m.id);
+            return (
+            <SortableItem key={m.id} id={ITEM + m.id} handle className={`border bg-surface ${open ? "border-accent/40" : "border-white/10"}`}>
+              {(handle) => (<>
+              {/* 只有標題列能拖，展開後的輸入框選字不會誤觸拖曳 */}
+              <div {...handle} className={`flex items-center gap-3 pl-2 pr-2 py-2 cursor-grab active:cursor-grabbing touch-manipulation ${open ? "border-b border-white/10" : ""}`}>
+                <button
+                  type="button"
+                  onClick={() => toggle(m.id)}
+                  className="flex-1 min-w-0 flex items-center gap-3 text-left group"
+                >
+                  <span className="relative w-14 h-14 shrink-0 bg-background overflow-hidden">
+                    {m.image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={m.image} alt="" draggable={false} className="absolute inset-0 w-full h-full object-cover" />
+                    ) : (
+                      <span className="absolute inset-0 flex items-center justify-center text-[10px] text-foreground/30">無圖</span>
+                    )}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm truncate group-hover:text-accent">
+                      <span className="text-accent mr-2">{String(pos + 1).padStart(2, "0")}</span>
+                      {m.name || "（未命名）"}
+                    </span>
+                    <span className="block text-[11px] text-foreground/40 truncate">
+                      {[current === ALL ? m.category : "", m.nameEn].filter(Boolean).join(" · ") || " "}
+                    </span>
+                  </span>
+                </button>
+                <div className="flex items-center shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => toggle(m.id)}
+                    className="px-3 py-1.5 mr-1 text-xs border border-white/15 hover:border-accent hover:text-accent"
+                  >
+                    {open ? "收合 ▲" : "展開 ▼"}
+                  </button>
                   <IconBtn label="上移" onClick={() => moveItem(pos, -1)}>↑</IconBtn>
                   <IconBtn label="下移" onClick={() => moveItem(pos, 1)}>↓</IconBtn>
                   <IconBtn label="刪除" danger onClick={() => removeItem(index)}>刪除</IconBtn>
                 </div>
               </div>
+              {open && (
               <div className="p-4 grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6">
                 <ImageInput label="圖片" aspect="aspect-square" value={m.image} onChange={(v) => setItem(index, { ...m, image: v })} />
                 <div className="space-y-4">
@@ -258,8 +372,12 @@ export default function CatalogEditor({
                   </Grid2>
                 </div>
               </div>
-            </div>
-          ))}
+              )}
+              </>)}
+            </SortableItem>
+            );
+          })}
+          </SortableContext>
 
           <button
             type="button"
@@ -270,6 +388,7 @@ export default function CatalogEditor({
           </button>
         </div>
       </div>
+      </DndContext>
     </div>
   );
 }

@@ -24,6 +24,7 @@ import {
 import { CONTENT_TAG, writeContent } from "../lib/content/store";
 import type { SiteContent } from "../lib/content/types";
 import { listInquiries, deleteInquiry } from "../lib/inquiries";
+import { getReport } from "../lib/analytics";
 
 async function requireAdmin() {
   const session = await getAdminSession();
@@ -122,4 +123,10 @@ export async function toggleAdminUser(id: string, active: boolean) {
 export async function deleteAdminUser(id: string) {
   await requireOwner();
   await removeUser(String(id));
+}
+
+export async function fetchAnalytics(days: number) {
+  await requireAdmin();
+  const allowed = [7, 30, 90];
+  return getReport(allowed.includes(days) ? days : 30);
 }

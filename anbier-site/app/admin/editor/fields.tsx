@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { SortableList, SortableItem, DragHandle, arrayMove } from "./sortable";
 import { uploadImage } from "./upload";
 
 const inputCls =
@@ -217,6 +218,14 @@ export function GalleryInput({
     latest.current = value;
   }, [value]);
 
+  // 同一張圖可能出現兩次，用「網址＋第幾次出現」當拖曳 id，排序後仍穩定
+  const seen = new Map<string, number>();
+  const galleryIds = value.map((src) => {
+    const n = (seen.get(src) ?? 0) + 1;
+    seen.set(src, n);
+    return `${src}#${n}`;
+  });
+
   function move(i: number, d: number) {
     const j = i + d;
     if (j < 0 || j >= value.length) return;
@@ -253,11 +262,13 @@ export function GalleryInput({
         />
       </div>
       {error && <p className="text-xs text-red-400 mb-2">{error}</p>}
+      {value.length > 1 && <p className="text-[11px] text-foreground/40 mb-2">按住圖片拖曳可調整順序（手機請長按）</p>}
+      <SortableList ids={galleryIds} onMove={(from, to) => onChange(arrayMove(value, from, to))} grid>
       <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
         {value.map((src, i) => (
-          <div key={`${src}-${i}`} className="group relative aspect-[4/3] bg-background overflow-hidden border border-white/10">
+          <SortableItem key={galleryIds[i]} id={galleryIds[i]} className="group aspect-[4/3] bg-background overflow-hidden border border-white/10 cursor-grab active:cursor-grabbing touch-manipulation">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            <img src={src} alt="" draggable={false} className="absolute inset-0 w-full h-full object-cover" />
             <span className="absolute top-1 left-1 px-1.5 text-[10px] bg-background/80">{i + 1}</span>
             <div className="absolute inset-x-0 bottom-0 flex justify-between bg-background/85 opacity-0 group-hover:opacity-100 transition-opacity">
               <IconBtn label="往前" onClick={() => move(i, -1)}>←</IconBtn>
@@ -266,9 +277,10 @@ export function GalleryInput({
               </IconBtn>
               <IconBtn label="往後" onClick={() => move(i, 1)}>→</IconBtn>
             </div>
-          </div>
+          </SortableItem>
         ))}
       </div>
+      </SortableList>
     </div>
   );
 }
@@ -320,12 +332,17 @@ export function ListEditor<T>({
     [next[i], next[j]] = [next[j], next[i]];
     onChange(next);
   }
+  // 欄位一改物件就換新，所以用位置當 id；拖曳只在放開時才改陣列，期間 id 不變
+  const ids = items.map((_, i) => `row-${i}`);
   return (
     <div className="space-y-4">
+      <SortableList ids={ids} onMove={(from, to) => onChange(arrayMove(items, from, to))}>
       {items.map((item, i) => (
-        <div key={i} className="border border-white/10 bg-background/40">
+        <SortableItem key={ids[i]} id={ids[i]} handle className="border border-white/10 bg-background/40">
+          {(handle) => (<>
           <div className="flex items-center justify-between px-4 py-2 border-b border-white/10">
-            <span className="text-sm text-foreground/80">
+            <span className="text-sm text-foreground/80 flex items-center">
+              <DragHandle {...handle} />
               <span className="text-accent mr-2">{String(i + 1).padStart(2, "0")}</span>
               {title(item, i)}
             </span>
@@ -348,8 +365,10 @@ export function ListEditor<T>({
           <div className="p-4 space-y-4">
             {render(item, (v) => onChange(items.map((x, k) => (k === i ? v : x))), i)}
           </div>
-        </div>
+          </>)}
+        </SortableItem>
       ))}
+      </SortableList>
       <button
         type="button"
         onClick={() => onChange([...items, create()])}
