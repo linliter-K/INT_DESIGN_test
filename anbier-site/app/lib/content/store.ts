@@ -77,6 +77,11 @@ const readStoredCached = unstable_cache(readStored, [CONTENT_TAG, "stored-v3"], 
   tags: [CONTENT_TAG],
 });
 
+// 給 pull-content 用：回傳原始存檔與時間，讓本機判斷要不要更新快照
+export async function getStoredSnapshot(): Promise<Stored | null> {
+  return readStoredCached();
+}
+
 export async function getContent(): Promise<SiteContent> {
   const stored = await readStoredCached();
   return stored ? mergeWithDefaults(stored.content) : defaultContent;

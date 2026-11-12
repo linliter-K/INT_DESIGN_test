@@ -42,5 +42,5 @@
 - 網站文字/圖片的「真正內容」= `anbier-site/content/site-content.json`（有進 git）+ 正式站 Vercel Blob，**誰新用誰**
 - 本機後台（localhost/admin）的修改直接寫進 `content/site-content.json`，上傳圖片進 `public/uploads/`，推送後正式站生效
 - 正式站後台的修改存在 Blob；**收工 `git add` 前先跑 `cd anbier-site && npm run pull-content`** 把它抓回 repo
-- pull-content 需要正式站金鑰：`vercel env pull .vercel/.env.production.local --environment=production`（只放 .vercel/，別放 .env.local，否則本機開發會直接改到正式資料）
+- pull-content 從正式站公開網址 `/api/content` 抓（不用金鑰；Vercel 把 Blob 金鑰標成敏感、`vercel env pull` 拿不到真值）
 - 改 `defaults.ts` 的文案：若該區塊已被後台存過，正式站會以後台版本為準，要改請直接在後台改
