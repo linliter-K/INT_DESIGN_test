@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState, useTransition } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { Heart, X } from "lucide-react";
 import RichText from "./RichText";
@@ -18,6 +18,7 @@ export default function Contact({
   const [error, setError] = useState<string | null>(null);
   const [sending, startSending] = useTransition();
   const { items: refs, remove, clear } = useMoodboard();
+  const formRef = useRef<HTMLFormElement>(null);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,6 +37,8 @@ export default function Contact({
         refs,
       }).catch(() => ({ ok: false as const, error: "網路連線異常，請稍後再試" }));
       if (res.ok) {
+        // 表單留在原位並清空，成功訊息改用彈窗，關掉後還能再填一筆
+        formRef.current?.reset();
         setSubmitted(true);
         clear();
       } else {
@@ -103,17 +106,7 @@ export default function Contact({
           transition={{ duration: 0.8, delay: 0.15 }}
           className="lg:col-span-7 lg:pl-12 lg:border-l border-white/10"
         >
-          {submitted ? (
-            <div className="h-full flex flex-col items-center justify-center text-center py-20">
-              <div className="font-serif text-3xl text-accent mb-4">
-                {contact.successTitle}
-              </div>
-              <p className="text-foreground/70 max-w-sm">
-                {contact.successText}
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Field label="姓名 *" name="name" required />
                 <Field label="聯絡電話 *" name="phone" type="tel" required />
@@ -230,10 +223,83 @@ export default function Contact({
                 <span className="absolute inset-0 bg-accent -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
               </button>
             </form>
-          )}
         </motion.div>
       </div>
+      <SuccessDialog
+        open={submitted}
+        title={contact.successTitle}
+        text={contact.successText}
+        onClose={() => setSubmitted(false)}
+      />
     </section>
+  );
+}
+
+function SuccessDialog({
+  open,
+  title,
+  text,
+  onClose,
+}: {
+  open: boolean;
+  title: string;
+  text: string;
+  onClose: () => void;
+}) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          onClick={onClose}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm px-6"
+        >
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="inquiry-success-title"
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md bg-surface border border-accent/30 px-8 py-12 text-center shadow-2xl"
+          >
+            <button
+              onClick={onClose}
+              aria-label="關閉"
+              className="absolute top-3 right-3 p-2 text-foreground/40 hover:text-accent transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+            <span className="block mx-auto mb-6 h-px w-10 bg-accent" />
+            <div id="inquiry-success-title" className="font-serif text-3xl text-accent mb-4">
+              {title}
+            </div>
+            <p className="text-foreground/70 leading-relaxed">{text}</p>
+            <button
+              ref={closeRef}
+              onClick={onClose}
+              className="mt-10 px-10 py-3 text-xs tracking-[0.4em] border border-accent text-accent hover:bg-accent hover:text-background transition-colors"
+            >
+              好的
+            </button>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
