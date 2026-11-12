@@ -39,14 +39,18 @@ export async function checkPassword(input: string) {
   return safeEqual(await hmac(input), await hmac(expected));
 }
 
-export async function createSessionToken() {
+export const OWNER_ID = "owner";
+
+// token 帶上帳號 id，才知道是誰登入、停用員工時能立刻擋下
+export async function createSessionToken(uid: string) {
   const exp = String(Date.now() + SESSION_MAX_AGE * 1000);
-  return `${exp}.${await hmac(exp)}`;
+  return `${uid}.${exp}.${await hmac(`${uid}.${exp}`)}`;
 }
 
-export async function verifySessionToken(token: string | undefined) {
-  if (!token || !isAdminConfigured()) return false;
-  const [exp, sig] = token.split(".");
-  if (!exp || !sig || Number(exp) < Date.now()) return false;
-  return safeEqual(sig, await hmac(exp));
+// 只驗簽章與期限（proxy 也能用）；員工是否被停用由 lib/session.ts 再查
+export async function verifySessionToken(token: string | undefined): Promise<string | null> {
+  if (!token || !isAdminConfigured()) return null;
+  const [uid, exp, sig] = token.split(".");
+  if (!uid || !exp || !sig || !/^[a-z0-9]+$/.test(uid) || Number(exp) < Date.now()) return null;
+  return safeEqual(sig, await hmac(`${uid}.${exp}`)) ? uid : null;
 }

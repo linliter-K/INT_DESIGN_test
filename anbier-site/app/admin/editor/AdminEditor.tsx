@@ -17,6 +17,8 @@ import {
 } from "./fields";
 import InquiriesPanel from "./InquiriesPanel";
 import CatalogEditor from "./CatalogEditor";
+import UsersPanel from "./UsersPanel";
+import type { AdminSession } from "../../lib/session";
 
 const TABS = [
   { key: "inquiries", label: "詢問" },
@@ -27,16 +29,19 @@ const TABS = [
   { key: "services", label: "服務" },
   { key: "about", label: "關於" },
   { key: "contact", label: "聯絡 / 頁尾" },
+  { key: "users", label: "帳號", ownerOnly: true },
 ] as const;
 type TabKey = (typeof TABS)[number]["key"];
 
 export default function AdminEditor({
   initial,
   storageMode,
+  session,
   emailConfigured,
 }: {
   initial: SiteContent;
   storageMode: "blob" | "local";
+  session: AdminSession;
   emailConfigured: boolean;
 }) {
   const [content, setContent] = useState(initial);
@@ -88,6 +93,7 @@ export default function AdminEditor({
             )}
           </div>
           <div className="flex items-center gap-3">
+            <span className="text-xs text-foreground/50">登入身分：{session.name}</span>
             {status && (
               <span className={`text-xs ${status.ok ? "text-green-400" : "text-red-400"}`}>
                 {status.msg}
@@ -115,7 +121,7 @@ export default function AdminEditor({
           </div>
         </div>
         <nav className="max-w-6xl mx-auto px-4 md:px-6 flex gap-1 overflow-x-auto">
-          {TABS.map((t) => (
+          {TABS.filter((t) => !("ownerOnly" in t) || session.isOwner).map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
@@ -133,6 +139,7 @@ export default function AdminEditor({
 
       <main className="max-w-6xl mx-auto px-4 md:px-6 py-8 space-y-8">
         {tab === "inquiries" && <InquiriesPanel emailConfigured={emailConfigured} />}
+        {tab === "users" && session.isOwner && <UsersPanel />}
 
         {tab === "home" && (
           <>

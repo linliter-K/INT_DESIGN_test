@@ -1,6 +1,5 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { SESSION_COOKIE, verifySessionToken } from "../lib/auth";
+import { getAdminSession } from "../lib/session";
 import { isBlobEnabled, readContentUncached } from "../lib/content/store";
 import AdminEditor from "./editor/AdminEditor";
 
@@ -10,16 +9,15 @@ export const metadata = {
 };
 
 export default async function AdminPage() {
-  const store = await cookies();
-  if (!(await verifySessionToken(store.get(SESSION_COOKIE)?.value))) {
-    redirect("/admin/login");
-  }
+  const session = await getAdminSession();
+  if (!session) redirect("/admin/login");
   // 後台一定要讀最新版，不能吃到前台的快取
   const content = await readContentUncached();
   return (
     <AdminEditor
       initial={content}
       storageMode={isBlobEnabled() ? "blob" : "local"}
+      session={session}
       emailConfigured={Boolean(process.env.RESEND_API_KEY && process.env.INQUIRY_NOTIFY_EMAIL)}
     />
   );

@@ -1,13 +1,11 @@
-import { cookies } from "next/headers";
-import { SESSION_COOKIE, verifySessionToken } from "../../../lib/auth";
+import { getAdminSession } from "../../../lib/session";
 import { saveImage } from "../../../lib/content/store";
 
 // Vercel Function 請求上限約 4.5MB；前端會先壓縮，這裡再擋一次
 const MAX_BYTES = 4 * 1024 * 1024;
 
 export async function POST(request: Request) {
-  const store = await cookies();
-  if (!(await verifySessionToken(store.get(SESSION_COOKIE)?.value))) {
+  if (!(await getAdminSession())) {
     return Response.json({ error: "未登入" }, { status: 401 });
   }
 
