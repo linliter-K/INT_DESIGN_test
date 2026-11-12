@@ -79,8 +79,11 @@ export default function AdminEditor({
             <span className="font-serif text-lg tracking-[0.3em]">AMB</span>
             <span className="text-[10px] tracking-[0.4em] text-accent">網站後台</span>
             {storageMode === "local" && (
-              <span className="text-[10px] px-2 py-0.5 border border-yellow-500/40 text-yellow-400">
-                本機模式
+              <span
+                title="修改會存進 repo 的 content/site-content.json，推送後正式站就會更新"
+                className="text-[10px] px-2 py-0.5 border border-yellow-500/40 text-yellow-400"
+              >
+                本機模式（推送後生效）
               </span>
             )}
           </div>

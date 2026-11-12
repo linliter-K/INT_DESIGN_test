@@ -42,4 +42,3 @@ next-env.d.ts
 
 # 後台本機模式產生的內容與上傳圖片
 /.local-content/
-/public/uploads/

@@ -66,6 +66,7 @@ export default function InquiriesPanel({ emailConfigured }: { emailConfigured: b
               <span className="font-serif text-lg">{q.name}</span>
               <span className="text-xs text-foreground/50">{new Date(q.createdAt).toLocaleString("zh-TW")}</span>
               {q.services.length > 0 && <span className="text-xs text-accent">{q.services.join("、")}</span>}
+              {q.budget && <span className="text-xs text-foreground/70">預算 {q.budget} 萬</span>}
               {q.refs.length > 0 && (
                 <span className="text-[10px] px-2 py-0.5 border border-accent/40 text-accent">♡ {q.refs.length} 張參考圖</span>
               )}
@@ -80,6 +81,7 @@ export default function InquiriesPanel({ emailConfigured }: { emailConfigured: b
                   <dt className="text-foreground/50">Email</dt>
                   <dd><a href={`mailto:${q.email}`} className="hover:text-accent">{q.email}</a></dd>
                   {q.size && (<><dt className="text-foreground/50">坪數 / 地區</dt><dd>{q.size}</dd></>)}
+                  {q.budget && (<><dt className="text-foreground/50">預算</dt><dd>{q.budget} 萬</dd></>)}
                   {q.message && (<><dt className="text-foreground/50">需求說明</dt><dd className="whitespace-pre-wrap leading-relaxed">{q.message}</dd></>)}
                 </dl>
 

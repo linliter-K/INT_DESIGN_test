@@ -19,6 +19,8 @@ export type Inquiry = {
   phone: string;
   email: string;
   size: string;
+  // 單位：萬；可能是單一數字或「150-250」區間
+  budget?: string;
   services: string[];
   message: string;
   refs: InquiryRef[];
@@ -111,7 +113,7 @@ export async function sendInquiryEmail(inquiry: Inquiry, origin: string) {
     <h2 style="font-weight:400">新詢問：${esc(inquiry.name)}</h2>
     <table style="font-size:14px;border-collapse:collapse">
       ${row("姓名", inquiry.name)}${row("電話", inquiry.phone)}${row("Email", inquiry.email)}
-      ${row("坪數 / 地區", inquiry.size)}${row("服務項目", inquiry.services.join("、"))}${row("需求說明", inquiry.message)}
+      ${row("坪數 / 地區", inquiry.size)}${row("預算", inquiry.budget ? `${inquiry.budget} 萬` : "")}${row("服務項目", inquiry.services.join("、"))}${row("需求說明", inquiry.message)}
     </table>
     ${inquiry.refs.length ? `<h3 style="font-weight:400;margin-top:28px">參考清單（${inquiry.refs.length} 張）</h3><table style="width:100%;border-collapse:collapse">${refs}</table>` : ""}
     <p style="font-size:12px;color:#888;margin-top:28px">完整紀錄可在網站後台「詢問」分頁查看：${esc(origin)}/admin</p>

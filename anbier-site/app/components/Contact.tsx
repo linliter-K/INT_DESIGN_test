@@ -29,6 +29,7 @@ export default function Contact({
         phone: String(fd.get("phone") ?? ""),
         email: String(fd.get("email") ?? ""),
         size: String(fd.get("size") ?? ""),
+        budget: String(fd.get("budget") ?? ""),
         services: fd.getAll("service").map(String),
         message: String(fd.get("message") ?? ""),
         website: String(fd.get("website") ?? ""),
@@ -118,11 +119,27 @@ export default function Contact({
                 <Field label="聯絡電話 *" name="phone" type="tel" required />
               </div>
               <Field label="Email *" name="email" type="email" required />
-              <Field
-                label="預計坪數 / 地區"
-                name="size"
-                placeholder="例：35 坪 / 台北信義"
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Field
+                  label="預計坪數 / 地區"
+                  name="size"
+                  placeholder="例：35 坪 / 台北信義"
+                />
+                <div>
+                  <label className="block text-[10px] tracking-[0.4em] text-accent mb-3">
+                    預算
+                  </label>
+                  <div className="flex items-baseline border-b border-white/20 focus-within:border-accent transition-colors">
+                    <input
+                      name="budget"
+                      inputMode="numeric"
+                      placeholder="例：200 或 150-250"
+                      className="flex-1 min-w-0 bg-transparent outline-none py-3 text-foreground"
+                    />
+                    <span className="pl-3 text-sm text-foreground/60">萬</span>
+                  </div>
+                </div>
+              </div>
               <div>
                 <label className="block text-[10px] tracking-[0.4em] text-accent mb-3">
                   服務項目

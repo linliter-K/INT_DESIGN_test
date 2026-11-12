@@ -37,3 +37,10 @@
 1. **圖片版權**：`anbier-site/public/placeholder/` 的 128 張圖全部擷取自 muldesign.com，**上線前必須全部替換**（Unsplash／Pexels／自家作品）
 2. **真實文案**：9 件作品的 concept／描述／info 目前是範例文字
 3. **真實聯絡資訊**：公司電話、地址、Email、年資數據
+
+## 🔄 後台內容同步（收工前必做）
+- 網站文字/圖片的「真正內容」= `anbier-site/content/site-content.json`（有進 git）+ 正式站 Vercel Blob，**誰新用誰**
+- 本機後台（localhost/admin）的修改直接寫進 `content/site-content.json`，上傳圖片進 `public/uploads/`，推送後正式站生效
+- 正式站後台的修改存在 Blob；**收工 `git add` 前先跑 `cd anbier-site && npm run pull-content`** 把它抓回 repo
+- pull-content 需要正式站金鑰：`vercel env pull .vercel/.env.production.local --environment=production`（只放 .vercel/，別放 .env.local，否則本機開發會直接改到正式資料）
+- 改 `defaults.ts` 的文案：若該區塊已被後台存過，正式站會以後台版本為準，要改請直接在後台改

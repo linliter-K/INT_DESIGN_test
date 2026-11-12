@@ -17,6 +17,7 @@ export async function submitInquiry(input: {
   phone: string;
   email: string;
   size: string;
+  budget?: string;
   services: string[];
   message: string;
   refs: InquiryRef[];
@@ -57,6 +58,11 @@ export async function submitInquiry(input: {
     phone,
     email,
     size: str(input.size, 100),
+    // 單位固定是「萬」，只留數字與區間符號，避免客戶自己再打「萬」或「元」變成「200萬 萬」
+    budget: str(input.budget, 30)
+      .replace(/[０-９]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0xfee0))
+      .replace(/[～~—–至到]/g, "-")
+      .replace(/[^\d.\-]/g, ""),
     services: (Array.isArray(input.services) ? input.services : []).map((s) => str(s, 30)).filter(Boolean).slice(0, 10),
     message: str(input.message, 3000),
     refs,
