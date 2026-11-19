@@ -21,7 +21,13 @@ import {
   toView,
   touchLogin,
 } from "../lib/admin-users";
-import { CONTENT_TAG, writeContent } from "../lib/content/store";
+import {
+  CONTENT_TAG,
+  listContentVersions,
+  mergeWithDefaults,
+  readContentVersion,
+  writeContent,
+} from "../lib/content/store";
 import type { SiteContent } from "../lib/content/types";
 import { listInquiries, deleteInquiry } from "../lib/inquiries";
 import { getReport } from "../lib/analytics";
@@ -88,6 +94,22 @@ export async function saveContent(content: SiteContent) {
   updateTag(CONTENT_TAG);
   revalidatePath("/", "layout");
   return { savedAt: Date.now() };
+}
+
+export async function fetchContentVersions() {
+  await requireAdmin();
+  return listContentVersions();
+}
+
+// 還原 = 把舊版當成新的一版存回去，所以還原本身也能再被還原（不會弄丟目前版本）
+export async function restoreContentVersion(id: string) {
+  await requireAdmin();
+  const old = await readContentVersion(String(id));
+  const content = mergeWithDefaults(old);
+  await writeContent(content);
+  updateTag(CONTENT_TAG);
+  revalidatePath("/", "layout");
+  return content;
 }
 
 export async function fetchInquiries() {

@@ -23,7 +23,7 @@ export function isBlobEnabled() {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 }
 
-function mergeWithDefaults(stored: Partial<SiteContent>): SiteContent {
+export function mergeWithDefaults(stored: Partial<SiteContent>): SiteContent {
   const merged = { ...defaultContent } as Record<string, unknown>;
   for (const [key, value] of Object.entries(stored)) {
     const base = merged[key];
@@ -87,8 +87,76 @@ export async function getContent(): Promise<SiteContent> {
   return stored ? mergeWithDefaults(stored.content) : defaultContent;
 }
 
+// 本機模式的舊版放 .local-content（不進 git），避免 repo 塞滿歷史檔
+const LOCAL_HISTORY = path.join(process.cwd(), ".local-content", "content-history");
+
+export type ContentVersion = { id: string; savedAt: number };
+
+async function listBlobVersions() {
+  const { blobs } = await list({ prefix: CONTENT_PREFIX, limit: 100 });
+  return blobs.sort((a, b) => +new Date(b.uploadedAt) - +new Date(a.uploadedAt));
+}
+
+// 回傳由新到舊，第一筆就是目前網站正在用的版本
+export async function listContentVersions(): Promise<ContentVersion[]> {
+  if (isBlobEnabled()) {
+    return (await listBlobVersions()).map((b) => ({
+      id: b.pathname,
+      savedAt: new Date(b.uploadedAt).getTime(),
+    }));
+  }
+  const versions: ContentVersion[] = [];
+  const current = await readSnapshot();
+  if (current?.updatedAt) versions.push({ id: "current", savedAt: current.updatedAt });
+  try {
+    const files = await fs.readdir(LOCAL_HISTORY);
+    for (const f of files) {
+      const t = Number(f.replace(/\.json$/, ""));
+      if (t) versions.push({ id: f, savedAt: t });
+    }
+  } catch {}
+  return versions.sort((a, b) => b.savedAt - a.savedAt).slice(0, KEEP_VERSIONS);
+}
+
+export async function readContentVersion(id: string): Promise<Partial<SiteContent>> {
+  if (isBlobEnabled()) {
+    // id 只接受清單裡真的存在的檔案，不讓人拿任意網址來讀
+    const blob = (await listBlobVersions()).find((b) => b.pathname === id);
+    if (!blob) throw new Error("找不到這個版本，可能已被清除");
+    const res = await fetch(blob.url, { cache: "no-store" });
+    if (!res.ok) throw new Error(`讀取版本失敗：${res.status}`);
+    return res.json();
+  }
+  if (id === "current") {
+    const snap = await readSnapshot();
+    if (!snap) throw new Error("找不到這個版本");
+    return snap.content;
+  }
+  if (!/^\d+\.json$/.test(id)) throw new Error("版本代碼錯誤");
+  const snap = JSON.parse(await fs.readFile(path.join(LOCAL_HISTORY, id), "utf-8"));
+  if (!snap?.content) throw new Error("找不到這個版本");
+  return snap.content;
+}
+
+async function archiveLocalSnapshot() {
+  const current = await readSnapshot();
+  if (!current?.updatedAt) return;
+  await fs.mkdir(LOCAL_HISTORY, { recursive: true });
+  await fs.writeFile(
+    path.join(LOCAL_HISTORY, `${current.updatedAt}.json`),
+    JSON.stringify(current),
+    "utf-8"
+  );
+  const files = (await fs.readdir(LOCAL_HISTORY)).sort((a, b) => parseInt(b) - parseInt(a));
+  // 目前版本本身也算一版，所以歷史只留 KEEP_VERSIONS - 1 份
+  for (const f of files.slice(KEEP_VERSIONS - 1)) {
+    await fs.rm(path.join(LOCAL_HISTORY, f), { force: true });
+  }
+}
+
 export async function writeContent(content: SiteContent) {
   if (!isBlobEnabled()) {
+    await archiveLocalSnapshot();
     await fs.mkdir(path.dirname(SNAPSHOT_FILE), { recursive: true });
     await fs.writeFile(
       SNAPSHOT_FILE,
@@ -103,10 +171,7 @@ export async function writeContent(content: SiteContent) {
     contentType: "application/json",
     addRandomSuffix: true,
   });
-  const { blobs } = await list({ prefix: CONTENT_PREFIX, limit: 100 });
-  const stale = blobs
-    .sort((a, b) => +new Date(b.uploadedAt) - +new Date(a.uploadedAt))
-    .slice(KEEP_VERSIONS);
+  const stale = (await listBlobVersions()).slice(KEEP_VERSIONS);
   if (stale.length) await del(stale.map((b) => b.url));
 }
 

@@ -19,6 +19,7 @@ import InquiriesPanel from "./InquiriesPanel";
 import CatalogEditor from "./CatalogEditor";
 import UsersPanel from "./UsersPanel";
 import AnalyticsPanel from "./AnalyticsPanel";
+import VersionsPanel from "./VersionsPanel";
 import { SortableList, SortableItem, arrayMove } from "./sortable";
 import { NO_TRACK_KEY } from "../../lib/track";
 import type { AdminSession } from "../../lib/session";
@@ -33,6 +34,7 @@ const TABS = [
   { key: "services", label: "服務" },
   { key: "about", label: "關於" },
   { key: "contact", label: "聯絡 / 頁尾" },
+  { key: "versions", label: "版本紀錄" },
   { key: "users", label: "帳號", ownerOnly: true },
 ] as const;
 type TabKey = (typeof TABS)[number]["key"];
@@ -151,6 +153,16 @@ export default function AdminEditor({
       <main className="max-w-6xl mx-auto px-4 md:px-6 py-8 space-y-8">
         {tab === "inquiries" && <InquiriesPanel emailConfigured={emailConfigured} />}
         {tab === "users" && session.isOwner && <UsersPanel />}
+        {tab === "versions" && (
+          <VersionsPanel
+            dirty={dirty}
+            onRestored={(c) => {
+              setContent(c);
+              setDirty(false);
+              setStatus({ ok: true, msg: `已還原並發布 ${new Date().toLocaleTimeString()}` });
+            }}
+          />
+        )}
         {tab === "analytics" && (
           <AnalyticsPanel
             pageNames={{
