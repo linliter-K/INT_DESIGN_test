@@ -269,13 +269,6 @@ export default function AdminEditor({
               <TextInput label="標題" value={content.plans.title} onChange={(v) => set("plans", { ...content.plans, title: v })} />
               <TextArea label="說明" value={content.plans.subtitle} onChange={(v) => set("plans", { ...content.plans, subtitle: v })} />
             </Section>
-            <Section title="方案底部預約列">
-              <TextInput label="標語" value={content.plans.ctaTitle} onChange={(v) => set("plans", { ...content.plans, ctaTitle: v })} />
-              <Grid2>
-                <TextInput label="地點說明" value={content.plans.ctaText} onChange={(v) => set("plans", { ...content.plans, ctaText: v })} />
-                <TextInput label="電話" value={content.plans.ctaPhone} onChange={(v) => set("plans", { ...content.plans, ctaPhone: v })} />
-              </Grid2>
-            </Section>
             <Section title="方案列表">
               <ListEditor
                 items={content.plans.items}

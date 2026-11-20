@@ -37,9 +37,6 @@ export type PlansSection = {
   kicker: string;
   title: string;
   subtitle: string;
-  ctaTitle: string;
-  ctaText: string;
-  ctaPhone: string;
   items: Plan[];
 };
 

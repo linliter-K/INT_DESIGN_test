@@ -92,7 +92,6 @@ function PlanCard({ plan, index }: { plan: Plan; index: number }) {
 
 export default function Plans({ plans }: { plans: PlansSection }) {
   if (!plans.items.length) return null;
-  const tel = plans.ctaPhone.replace(/[^\d+]/g, "");
 
   return (
     <section id="plans" className="py-28 lg:py-40 px-6 lg:px-12 border-t border-white/5">
@@ -106,34 +105,6 @@ export default function Plans({ plans }: { plans: PlansSection }) {
           ))}
         </div>
         <p className="md:hidden mt-2 text-[10px] tracking-[0.3em] text-foreground/40">← 左右滑動查看更多方案</p>
-
-        {(plans.ctaTitle || plans.ctaPhone) && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="mt-12 flex flex-col md:flex-row md:items-center gap-6 justify-between border border-accent/30 px-6 lg:px-10 py-8"
-          >
-            <div>
-              <div className="font-serif text-2xl md:text-3xl text-foreground">{plans.ctaTitle}</div>
-              {plans.ctaText && <div className="mt-2 text-sm tracking-wider text-foreground/50">{plans.ctaText}</div>}
-            </div>
-            <div className="flex flex-wrap items-center gap-6">
-              {plans.ctaPhone && (
-                <a href={`tel:${tel}`} className="font-serif text-3xl md:text-4xl text-foreground hover:text-accent transition-colors">
-                  {plans.ctaPhone}
-                </a>
-              )}
-              <a
-                href="#contact"
-                className="px-7 py-3 text-xs tracking-[0.3em] bg-accent text-background hover:bg-accent/85 transition-colors"
-              >
-                預約諮詢
-              </a>
-            </div>
-          </motion.div>
-        )}
       </div>
     </section>
   );
