@@ -40,8 +40,9 @@ function PlanCard({ plan, index }: { plan: Plan; index: number }) {
       transition={{ duration: 0.7, delay: (index % 3) * 0.1 }}
       className="group relative flex flex-col bg-surface border border-white/5 hover:border-accent/30 transition-colors duration-500 scroll-mt-28 snap-start shrink-0 w-[85vw] sm:w-[70vw] md:w-auto"
     >
+      {/* 圖高跟著文字走（文字高 + 上方留給愛心的空間），固定比例在窄卡會壓到字、寬卡又留一大片空白 */}
       {plan.image && (
-        <div className="relative aspect-[4/3] overflow-hidden">
+        <div className="relative overflow-hidden">
           <Image
             src={plan.image}
             alt={plan.name}
@@ -60,7 +61,7 @@ function PlanCard({ plan, index }: { plan: Plan; index: number }) {
               href: `/#plan-${plan.id}`,
             }}
           />
-          <div className="absolute left-6 right-6 lg:left-8 lg:right-8 bottom-4 [text-shadow:0_1px_8px_rgba(0,0,0,0.65)]">
+          <div className="relative pointer-events-none px-6 lg:px-8 pt-20 pb-4 [text-shadow:0_1px_8px_rgba(0,0,0,0.65)]">
             <div className="min-w-0">
               <PlanTitle plan={plan} />
             </div>
