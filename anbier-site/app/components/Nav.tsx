@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 const links = [
   { key: "home", label: "首頁", en: "Home" },
   { key: "portfolio", label: "作品", en: "Works" },
+  { key: "plans", label: "方案", en: "Packages" },
   { key: "materials", label: "材質", en: "Materials" },
   { key: "furnishings", label: "軟裝", en: "Furnishing" },
   { key: "services", label: "服務", en: "Services" },

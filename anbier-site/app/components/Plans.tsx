@@ -1,0 +1,140 @@
+"use client";
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+import SectionHeading from "./SectionHeading";
+import SaveButton from "./SaveButton";
+import type { Plan, PlansSection } from "../lib/content/types";
+
+function PlanCard({ plan, index }: { plan: Plan; index: number }) {
+  return (
+    <motion.article
+      id={`plan-${plan.id}`}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.7, delay: (index % 3) * 0.1 }}
+      className="group relative flex flex-col bg-surface border border-white/5 hover:border-accent/30 transition-colors duration-500 scroll-mt-28 snap-start shrink-0 w-[85vw] sm:w-[70vw] md:w-auto"
+    >
+      {plan.image && (
+        <div className="relative aspect-[4/3] overflow-hidden">
+          <Image
+            src={plan.image}
+            alt={plan.name}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 85vw"
+            className="object-cover transition-transform duration-[1.2s] group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent" />
+          <SaveButton
+            item={{
+              kind: "plan",
+              image: plan.image,
+              title: plan.name,
+              subtitle: `${plan.price} ${plan.priceUnit}`,
+              href: `/#plan-${plan.id}`,
+            }}
+          />
+          <div className="absolute left-6 lg:left-8 bottom-4 text-[11px] tracking-[0.2em] text-foreground/80">
+            {plan.audience}
+          </div>
+        </div>
+      )}
+
+      <div className="flex flex-col flex-1 p-6 lg:p-8">
+        <h3 className="font-serif text-3xl lg:text-[2.1rem] text-foreground">{plan.name}</h3>
+        <p className="mt-2 text-sm text-foreground/60 leading-relaxed">{plan.tagline}</p>
+
+        <div className="mt-6 flex items-end gap-3">
+          <span className="font-serif text-6xl leading-none text-foreground">{plan.price}</span>
+          <span className="font-serif text-2xl text-foreground mb-1">{plan.priceUnit}</span>
+          <span className="ml-auto mb-1.5 text-[10px] tracking-[0.3em] text-accent">{plan.priceNote}</span>
+        </div>
+
+        {plan.highlights.length > 0 && (
+          <div className="mt-6 grid grid-cols-3 border-y border-white/10 divide-x divide-white/10">
+            {plan.highlights.map((h, i) => (
+              <div key={i} className="px-2 py-3 text-center text-xs leading-snug text-foreground/85">
+                {h}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <dl className="mt-6 space-y-3.5">
+          {plan.items.map((it, i) => (
+            <div key={i} className="grid grid-cols-[4.5rem_1fr] gap-3 text-sm">
+              <dt className="flex items-start gap-2 text-accent whitespace-nowrap">
+                <span className="mt-[0.6rem] h-px w-2.5 bg-accent shrink-0" />
+                {it.label}
+              </dt>
+              <dd className="text-foreground/70 leading-relaxed">{it.desc}</dd>
+            </div>
+          ))}
+        </dl>
+
+        {/* mt-auto 讓不同長度的卡片底部對齊 */}
+        <div className="mt-auto pt-6 space-y-3">
+          {plan.extras && (
+            <div className="bg-background/60 border-l border-accent/50 px-4 py-3 text-xs leading-relaxed">
+              <span className="text-foreground/90 mr-2">選配與另估</span>
+              <span className="text-foreground/55">{plan.extras}</span>
+            </div>
+          )}
+          {plan.note && <p className="text-[11px] leading-relaxed text-foreground/40">{plan.note}</p>}
+        </div>
+      </div>
+
+      <span className="absolute bottom-0 left-0 h-px w-0 bg-accent transition-all duration-700 group-hover:w-full" />
+    </motion.article>
+  );
+}
+
+export default function Plans({ plans }: { plans: PlansSection }) {
+  if (!plans.items.length) return null;
+  const tel = plans.ctaPhone.replace(/[^\d+]/g, "");
+
+  return (
+    <section id="plans" className="py-28 lg:py-40 px-6 lg:px-12 border-t border-white/5">
+      <div className="max-w-[1400px] mx-auto">
+        <SectionHeading kicker={plans.kicker} title={plans.title} subtitle={plans.subtitle} />
+
+        {/* 手機橫向滑動，避免 5 張長卡片把首頁拉得太長 */}
+        <div className="-mx-6 px-6 md:mx-0 md:px-0 flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-px-6 md:scroll-px-0 pb-4 md:pb-0">
+          {plans.items.map((p, i) => (
+            <PlanCard key={p.id || i} plan={p} index={i} />
+          ))}
+        </div>
+        <p className="md:hidden mt-2 text-[10px] tracking-[0.3em] text-foreground/40">← 左右滑動查看更多方案</p>
+
+        {(plans.ctaTitle || plans.ctaPhone) && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="mt-12 flex flex-col md:flex-row md:items-center gap-6 justify-between border border-accent/30 px-6 lg:px-10 py-8"
+          >
+            <div>
+              <div className="font-serif text-2xl md:text-3xl text-foreground">{plans.ctaTitle}</div>
+              {plans.ctaText && <div className="mt-2 text-sm tracking-wider text-foreground/50">{plans.ctaText}</div>}
+            </div>
+            <div className="flex flex-wrap items-center gap-6">
+              {plans.ctaPhone && (
+                <a href={`tel:${tel}`} className="font-serif text-3xl md:text-4xl text-foreground hover:text-accent transition-colors">
+                  {plans.ctaPhone}
+                </a>
+              )}
+              <a
+                href="#contact"
+                className="px-7 py-3 text-xs tracking-[0.3em] bg-accent text-background hover:bg-accent/85 transition-colors"
+              >
+                預約諮詢
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </div>
+    </section>
+  );
+}

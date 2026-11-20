@@ -15,6 +15,34 @@ export type ServiceItem = {
 
 export type Stat = { num: string; label: string; en: string };
 
+export type PlanItem = { label: string; desc: string };
+
+export type Plan = {
+  id: string;
+  name: string;
+  // 適用對象，例如「二房新成屋｜室內約 12–18 坪」
+  audience: string;
+  tagline: string;
+  price: string;
+  priceUnit: string;
+  priceNote: string;
+  image: string;
+  highlights: string[];
+  items: PlanItem[];
+  extras: string;
+  note: string;
+};
+
+export type PlansSection = {
+  kicker: string;
+  title: string;
+  subtitle: string;
+  ctaTitle: string;
+  ctaText: string;
+  ctaPhone: string;
+  items: Plan[];
+};
+
 export type CatalogItem = {
   id: string;
   name: string;
@@ -55,6 +83,7 @@ export type SiteContent = {
     subtitle: string;
     items: ServiceItem[];
   };
+  plans: PlansSection;
   about: {
     kicker: string;
     title: RichText;

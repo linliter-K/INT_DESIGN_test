@@ -2,10 +2,11 @@ import type { CatalogSection } from "./types";
 
 // 材質與軟裝共用同一套「分類 + 卡片」結構
 export type CatalogKind = "material" | "furnishing";
-export type RefKind = "project" | CatalogKind;
+export type RefKind = "project" | "plan" | CatalogKind;
 
 export const KIND_LABEL: Record<RefKind, string> = {
   project: "作品",
+  plan: "方案",
   material: "材質",
   furnishing: "軟裝",
 };

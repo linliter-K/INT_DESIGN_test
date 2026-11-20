@@ -30,6 +30,7 @@ const TABS = [
   { key: "analytics", label: "數據" },
   { key: "home", label: "首頁主視覺" },
   { key: "projects", label: "作品" },
+  { key: "plans", label: "方案" },
   { key: "materials", label: "材質" },
   { key: "furnishings", label: "軟裝" },
   { key: "services", label: "服務" },
@@ -254,6 +255,83 @@ export default function AdminEditor({
                     </div>
                     <TextArea label="說明" rows={2} value={s.desc} onChange={(v) => setS({ ...s, desc: v })} />
                     <LinesInput label="細項" rows={4} value={s.points} onChange={(v) => setS({ ...s, points: v })} />
+                  </>
+                )}
+              />
+            </Section>
+          </>
+        )}
+
+        {tab === "plans" && (
+          <>
+            <Section title="方案區塊標題">
+              <TextInput label="小標" value={content.plans.kicker} onChange={(v) => set("plans", { ...content.plans, kicker: v })} />
+              <TextInput label="標題" value={content.plans.title} onChange={(v) => set("plans", { ...content.plans, title: v })} />
+              <TextArea label="說明" value={content.plans.subtitle} onChange={(v) => set("plans", { ...content.plans, subtitle: v })} />
+            </Section>
+            <Section title="方案底部預約列">
+              <TextInput label="標語" value={content.plans.ctaTitle} onChange={(v) => set("plans", { ...content.plans, ctaTitle: v })} />
+              <Grid2>
+                <TextInput label="地點說明" value={content.plans.ctaText} onChange={(v) => set("plans", { ...content.plans, ctaText: v })} />
+                <TextInput label="電話" value={content.plans.ctaPhone} onChange={(v) => set("plans", { ...content.plans, ctaPhone: v })} />
+              </Grid2>
+            </Section>
+            <Section title="方案列表">
+              <ListEditor
+                items={content.plans.items}
+                onChange={(v) => set("plans", { ...content.plans, items: v })}
+                title={(p) => `${p.name}｜${p.price} ${p.priceUnit}`}
+                addLabel="+ 新增方案"
+                create={() => ({
+                  id: `plan-${Date.now().toString(36)}`,
+                  name: "新方案",
+                  audience: "",
+                  tagline: "",
+                  price: "",
+                  priceUnit: "萬",
+                  priceNote: "含稅規劃預算",
+                  image: "",
+                  highlights: [],
+                  items: [],
+                  extras: "",
+                  note: "正式範圍與總價依書面報價。",
+                })}
+                render={(p, setP) => (
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6">
+                      <ImageInput label="方案圖片" aspect="aspect-[4/3]" value={p.image} onChange={(v) => setP({ ...p, image: v })} />
+                      <div className="space-y-4">
+                        <Grid2>
+                          <TextInput label="方案名稱" value={p.name} onChange={(v) => setP({ ...p, name: v })} />
+                          <TextInput label="適用對象" value={p.audience} placeholder="二房新成屋｜室內約 12–18 坪" onChange={(v) => setP({ ...p, audience: v })} />
+                        </Grid2>
+                        <TextInput label="一句話說明" value={p.tagline} onChange={(v) => setP({ ...p, tagline: v })} />
+                        <div className="grid grid-cols-3 gap-4">
+                          <TextInput label="價格" value={p.price} placeholder="60" onChange={(v) => setP({ ...p, price: v })} />
+                          <TextInput label="單位" value={p.priceUnit} placeholder="萬 / 萬起" onChange={(v) => setP({ ...p, priceUnit: v })} />
+                          <TextInput label="價格備註" value={p.priceNote} onChange={(v) => setP({ ...p, priceNote: v })} />
+                        </div>
+                      </div>
+                    </div>
+                    <LinesInput label="重點標籤（一行一個，建議 3 個）" rows={3} value={p.highlights} onChange={(v) => setP({ ...p, highlights: v })} />
+                    <div>
+                      <div className="text-xs text-foreground/50 mb-2">方案內容</div>
+                      <ListEditor
+                        items={p.items}
+                        onChange={(v) => setP({ ...p, items: v })}
+                        title={(it) => it.label || "（未命名）"}
+                        addLabel="+ 新增內容項目"
+                        create={() => ({ label: "", desc: "" })}
+                        render={(it, setIt) => (
+                          <div className="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-4">
+                            <TextInput label="項目" value={it.label} onChange={(v) => setIt({ ...it, label: v })} />
+                            <TextInput label="說明" value={it.desc} onChange={(v) => setIt({ ...it, desc: v })} />
+                          </div>
+                        )}
+                      />
+                    </div>
+                    <TextArea label="選配與另估" rows={2} value={p.extras} onChange={(v) => setP({ ...p, extras: v })} />
+                    <TextArea label="附註（小字）" rows={2} value={p.note} onChange={(v) => setP({ ...p, note: v })} />
                   </>
                 )}
               />
