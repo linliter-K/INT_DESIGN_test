@@ -6,6 +6,20 @@ import SectionHeading from "./SectionHeading";
 import SaveButton from "./SaveButton";
 import type { Plan, PlansSection } from "../lib/content/types";
 
+function PlanTitle({ plan }: { plan: Plan }) {
+  return (
+    <>
+      <h3 className="font-serif text-2xl lg:text-[1.75rem] leading-tight text-foreground">{plan.name}</h3>
+      {plan.tagline && (
+        <p className="mt-1 text-xs text-foreground/75 leading-relaxed">{plan.tagline}</p>
+      )}
+      {plan.audience && (
+        <div className="mt-2 text-[11px] tracking-[0.15em] text-accent">{plan.audience}</div>
+      )}
+    </>
+  );
+}
+
 function PlanCard({ plan, index }: { plan: Plan; index: number }) {
   return (
     <motion.article
@@ -25,7 +39,8 @@ function PlanCard({ plan, index }: { plan: Plan; index: number }) {
             sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 85vw"
             className="object-cover transition-transform duration-[1.2s] group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent" />
+          {/* 標題壓在圖上，底部要夠暗才讀得清楚 */}
+          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/55 via-35% to-transparent to-75%" />
           <SaveButton
             item={{
               kind: "plan",
@@ -35,17 +50,16 @@ function PlanCard({ plan, index }: { plan: Plan; index: number }) {
               href: `/#plan-${plan.id}`,
             }}
           />
-          <div className="absolute left-6 lg:left-8 bottom-4 text-[11px] tracking-[0.2em] text-foreground/80">
-            {plan.audience}
+          <div className="absolute left-6 right-6 lg:left-8 lg:right-8 bottom-4 [text-shadow:0_1px_8px_rgba(0,0,0,0.65)]">
+            <PlanTitle plan={plan} />
           </div>
         </div>
       )}
 
-      <div className="flex flex-col flex-1 p-6 lg:p-8">
-        <h3 className="font-serif text-3xl lg:text-[2.1rem] text-foreground">{plan.name}</h3>
-        <p className="mt-2 text-sm text-foreground/60 leading-relaxed">{plan.tagline}</p>
+      <div className="flex flex-col flex-1 px-6 lg:px-8 pt-5 pb-6 lg:pb-8">
+        {!plan.image && <PlanTitle plan={plan} />}
 
-        <div className="mt-6 flex items-end gap-3">
+        <div className={`${plan.image ? "" : "mt-6 "}flex items-end gap-3`}>
           <span className="font-serif text-6xl leading-none text-foreground">{plan.price}</span>
           <span className="font-serif text-2xl text-foreground mb-1">{plan.priceUnit}</span>
           <span className="ml-auto mb-1.5 text-[10px] tracking-[0.3em] text-accent">{plan.priceNote}</span>
