@@ -284,7 +284,6 @@ export default function AdminEditor({
                   tagline: "",
                   price: "",
                   priceUnit: "萬",
-                  priceNote: "含稅規劃預算",
                   image: "",
                   highlights: [],
                   items: [],
@@ -301,10 +300,9 @@ export default function AdminEditor({
                           <TextInput label="適用對象" value={p.audience} placeholder="二房新成屋｜室內約 12–18 坪" onChange={(v) => setP({ ...p, audience: v })} />
                         </Grid2>
                         <TextInput label="一句話說明" value={p.tagline} onChange={(v) => setP({ ...p, tagline: v })} />
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="grid grid-cols-2 gap-4">
                           <TextInput label="價格" value={p.price} placeholder="60" onChange={(v) => setP({ ...p, price: v })} />
                           <TextInput label="單位" value={p.priceUnit} placeholder="萬 / 萬起" onChange={(v) => setP({ ...p, priceUnit: v })} />
-                          <TextInput label="價格備註" value={p.priceNote} onChange={(v) => setP({ ...p, priceNote: v })} />
                         </div>
                       </div>
                     </div>

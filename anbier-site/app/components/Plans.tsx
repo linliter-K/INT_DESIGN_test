@@ -20,6 +20,16 @@ function PlanTitle({ plan }: { plan: Plan }) {
   );
 }
 
+function PlanPrice({ plan }: { plan: Plan }) {
+  if (!plan.price) return null;
+  return (
+    <div className="mt-3 flex items-end gap-2 whitespace-nowrap">
+      <span className="font-serif text-6xl leading-none text-foreground">{plan.price}</span>
+      <span className="font-serif text-2xl leading-none text-foreground mb-1">{plan.priceUnit}</span>
+    </div>
+  );
+}
+
 function PlanCard({ plan, index }: { plan: Plan; index: number }) {
   return (
     <motion.article
@@ -40,7 +50,7 @@ function PlanCard({ plan, index }: { plan: Plan; index: number }) {
             className="object-cover transition-transform duration-[1.2s] group-hover:scale-105"
           />
           {/* 標題壓在圖上，底部要夠暗才讀得清楚 */}
-          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/55 via-35% to-transparent to-75%" />
+          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/60 via-45% to-transparent to-90%" />
           <SaveButton
             item={{
               kind: "plan",
@@ -51,22 +61,26 @@ function PlanCard({ plan, index }: { plan: Plan; index: number }) {
             }}
           />
           <div className="absolute left-6 right-6 lg:left-8 lg:right-8 bottom-4 [text-shadow:0_1px_8px_rgba(0,0,0,0.65)]">
-            <PlanTitle plan={plan} />
+            <div className="min-w-0">
+              <PlanTitle plan={plan} />
+            </div>
+            <PlanPrice plan={plan} />
           </div>
         </div>
       )}
 
       <div className="flex flex-col flex-1 px-6 lg:px-8 pt-5 pb-6 lg:pb-8">
-        {!plan.image && <PlanTitle plan={plan} />}
-
-        <div className={`${plan.image ? "" : "mt-6 "}flex items-end gap-3`}>
-          <span className="font-serif text-6xl leading-none text-foreground">{plan.price}</span>
-          <span className="font-serif text-2xl text-foreground mb-1">{plan.priceUnit}</span>
-          <span className="ml-auto mb-1.5 text-[10px] tracking-[0.3em] text-accent">{plan.priceNote}</span>
-        </div>
+        {!plan.image && (
+          <div>
+            <div className="min-w-0">
+              <PlanTitle plan={plan} />
+            </div>
+            <PlanPrice plan={plan} />
+          </div>
+        )}
 
         {plan.highlights.length > 0 && (
-          <div className="mt-6 grid grid-cols-3 border-y border-white/10 divide-x divide-white/10">
+          <div className={`${plan.image ? "" : "mt-6 "}grid grid-cols-3 border-y border-white/10 divide-x divide-white/10`}>
             {plan.highlights.map((h, i) => (
               <div key={i} className="px-2 py-3 text-center text-xs leading-snug text-foreground/85">
                 {h}

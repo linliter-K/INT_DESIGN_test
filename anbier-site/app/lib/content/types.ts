@@ -25,7 +25,6 @@ export type Plan = {
   tagline: string;
   price: string;
   priceUnit: string;
-  priceNote: string;
   image: string;
   highlights: string[];
   items: PlanItem[];

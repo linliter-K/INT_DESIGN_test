@@ -67,7 +67,6 @@ export const defaultContent: SiteContent = {
         tagline: "小坪數先做好收納、平頂與基本照明",
         price: "40",
         priceUnit: "萬以下",
-        priceNote: "含稅規劃預算",
         image: "/plans/studio-40.webp",
         highlights: ["約 4–8 m 櫃體", "基礎平釘", "燈具與天花油漆"],
         items: [
@@ -86,7 +85,6 @@ export const defaultContent: SiteContent = {
         tagline: "先做好玄關、客廳與主臥的日常收納",
         price: "60",
         priceUnit: "萬",
-        priceNote: "含稅規劃預算",
         image: "/plans/cozy-60.webp",
         highlights: ["約 8 m 定制櫃", "全室平釘約 15 坪", "全室崁燈"],
         items: [
@@ -105,7 +103,6 @@ export const defaultContent: SiteContent = {
         tagline: "從玄關到餐廚與臥室，讓收納各就各位",
         price: "90",
         priceUnit: "萬",
-        priceNote: "含稅規劃預算",
         image: "/plans/storage-90.webp",
         highlights: ["約 12 m 定制櫃", "全室平釘約 18 坪", "客廳間接照明"],
         items: [
@@ -125,7 +122,6 @@ export const defaultContent: SiteContent = {
         tagline: "三房有收納，客餐廳燈光能切換情境",
         price: "120",
         priceUnit: "萬",
-        priceNote: "含稅規劃預算",
         image: "/plans/function-120.webp",
         highlights: ["約 16 m 定制櫃", "三房機能收納", "客餐廳智能燈具"],
         items: [
@@ -145,7 +141,6 @@ export const defaultContent: SiteContent = {
         tagline: "全室基礎智能照明，搭配客餐廳家具",
         price: "150",
         priceUnit: "萬",
-        priceNote: "含稅規劃預算",
         image: "/plans/integrate-150.webp",
         highlights: ["約 18 m 定制櫃", "全室基礎智能", "客餐廳基礎軟裝"],
         items: [
@@ -165,7 +160,6 @@ export const defaultContent: SiteContent = {
         tagline: "整合全室定制櫃、智能情境與基礎軟裝",
         price: "200",
         priceUnit: "萬起",
-        priceNote: "含稅規劃預算",
         image: "/plans/bespoke-200.webp",
         highlights: ["約 22 m 定制櫃", "全室智能整合", "全室基礎軟裝"],
         items: [
