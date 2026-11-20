@@ -310,43 +310,95 @@ export function IconBtn({
 }
 
 // 可增刪排序的卡片清單（服務項目、數據、材質…共用）
+// collapsible：內容很長的清單（例如方案）預設收合只看標題列，要改再展開
 export function ListEditor<T>({
   items,
   onChange,
   create,
   title,
+  subtitle,
   render,
   addLabel = "+ 新增一筆",
+  collapsible = false,
 }: {
   items: T[];
   onChange: (v: T[]) => void;
   create: () => T;
   title: (item: T, i: number) => string;
+  subtitle?: (item: T, i: number) => string;
   render: (item: T, set: (v: T) => void, i: number) => ReactNode;
   addLabel?: string;
+  collapsible?: boolean;
 }) {
+  // 展開狀態跟著位置走：排序、刪除時用同樣方式搬動，展開的那張才不會跳到別張
+  const [open, setOpen] = useState<boolean[]>([]);
+  const flags = () => items.map((_, k) => Boolean(open[k]));
+  const isOpen = (i: number) => !collapsible || Boolean(open[i]);
+  const toggle = (i: number) => setOpen(flags().map((v, k) => (k === i ? !v : v)));
+
+  function reorder(next: T[], nextOpen: boolean[]) {
+    setOpen(nextOpen);
+    onChange(next);
+  }
   function move(i: number, d: number) {
     const j = i + d;
     if (j < 0 || j >= items.length) return;
     const next = [...items];
     [next[i], next[j]] = [next[j], next[i]];
-    onChange(next);
+    const nextOpen = flags();
+    [nextOpen[i], nextOpen[j]] = [nextOpen[j], nextOpen[i]];
+    reorder(next, nextOpen);
   }
   // 欄位一改物件就換新，所以用位置當 id；拖曳只在放開時才改陣列，期間 id 不變
   const ids = items.map((_, i) => `row-${i}`);
   return (
     <div className="space-y-4">
-      <SortableList ids={ids} onMove={(from, to) => onChange(arrayMove(items, from, to))}>
+      {collapsible && items.length > 1 && (
+        <div className="flex justify-end gap-3 text-xs text-foreground/50">
+          <button type="button" onClick={() => setOpen(items.map(() => true))} className="hover:text-accent">全部展開</button>
+          <span>|</span>
+          <button type="button" onClick={() => setOpen([])} className="hover:text-accent">全部收合</button>
+        </div>
+      )}
+      <SortableList ids={ids} onMove={(from, to) => reorder(arrayMove(items, from, to), arrayMove(flags(), from, to))}>
       {items.map((item, i) => (
-        <SortableItem key={ids[i]} id={ids[i]} handle className="border border-white/10 bg-background/40">
+        <SortableItem
+          key={ids[i]}
+          id={ids[i]}
+          handle
+          className={`border bg-background/40 ${collapsible && isOpen(i) ? "border-accent/40" : "border-white/10"}`}
+        >
           {(handle) => (<>
-          <div className="flex items-center justify-between px-4 py-2 border-b border-white/10">
-            <span className="text-sm text-foreground/80 flex items-center">
+          <div className={`flex items-center justify-between gap-3 px-4 py-2 ${isOpen(i) ? "border-b border-white/10" : ""}`}>
+            <span className="text-sm text-foreground/80 flex items-center min-w-0">
               <DragHandle {...handle} />
-              <span className="text-accent mr-2">{String(i + 1).padStart(2, "0")}</span>
-              {title(item, i)}
+              {collapsible ? (
+                <button type="button" onClick={() => toggle(i)} className="min-w-0 text-left hover:text-accent">
+                  <span className="block truncate">
+                    <span className="text-accent mr-2">{String(i + 1).padStart(2, "0")}</span>
+                    {title(item, i)}
+                  </span>
+                  {subtitle && (
+                    <span className="block text-[11px] text-foreground/40 truncate">{subtitle(item, i) || " "}</span>
+                  )}
+                </button>
+              ) : (
+                <>
+                  <span className="text-accent mr-2">{String(i + 1).padStart(2, "0")}</span>
+                  {title(item, i)}
+                </>
+              )}
             </span>
-            <div className="flex">
+            <div className="flex items-center shrink-0">
+              {collapsible && (
+                <button
+                  type="button"
+                  onClick={() => toggle(i)}
+                  className="px-3 py-1.5 mr-1 text-xs border border-white/15 hover:border-accent hover:text-accent"
+                >
+                  {isOpen(i) ? "收合 ▲" : "展開 ▼"}
+                </button>
+              )}
               <IconBtn label="上移" onClick={() => move(i, -1)}>↑</IconBtn>
               <IconBtn label="下移" onClick={() => move(i, 1)}>↓</IconBtn>
               <IconBtn
@@ -354,7 +406,7 @@ export function ListEditor<T>({
                 danger
                 onClick={() => {
                   if (window.confirm(`確定刪除「${title(item, i)}」？`)) {
-                    onChange(items.filter((_, k) => k !== i));
+                    reorder(items.filter((_, k) => k !== i), flags().filter((_, k) => k !== i));
                   }
                 }}
               >
@@ -362,16 +414,19 @@ export function ListEditor<T>({
               </IconBtn>
             </div>
           </div>
-          <div className="p-4 space-y-4">
-            {render(item, (v) => onChange(items.map((x, k) => (k === i ? v : x))), i)}
-          </div>
+          {isOpen(i) && (
+            <div className="p-4 space-y-4">
+              {render(item, (v) => onChange(items.map((x, k) => (k === i ? v : x))), i)}
+            </div>
+          )}
           </>)}
         </SortableItem>
       ))}
       </SortableList>
       <button
         type="button"
-        onClick={() => onChange([...items, create()])}
+        // 新增的通常馬上要填資料，直接展開
+        onClick={() => reorder([...items, create()], [...flags(), true])}
         className="w-full py-3 text-xs tracking-[0.3em] border border-dashed border-white/20 text-foreground/60 hover:border-accent hover:text-accent transition-colors"
       >
         {addLabel}

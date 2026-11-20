@@ -274,6 +274,8 @@ export default function AdminEditor({
                 items={content.plans.items}
                 onChange={(v) => set("plans", { ...content.plans, items: v })}
                 title={(p) => `${p.name}｜${p.price} ${p.priceUnit}`}
+                subtitle={(p) => p.audience}
+                collapsible
                 addLabel="+ 新增方案"
                 create={() => ({
                   id: `plan-${Date.now().toString(36)}`,
