@@ -10,6 +10,8 @@ async function findProject(id: string) {
   return { projects, project: projects.find((p) => p.id === id) };
 }
 import ProjectGallery from "./ProjectGallery";
+import SimulationViewer from "./SimulationViewer";
+import { normalizeEmbedUrl } from "../../lib/embed";
 import SaveButton from "../../components/SaveButton";
 
 export async function generateStaticParams() {
@@ -43,6 +45,7 @@ export default async function ProjectPage({
   const idx = projects.findIndex((p) => p.id === id);
   const prev = projects[(idx - 1 + projects.length) % projects.length];
   const next = projects[(idx + 1) % projects.length];
+  const simulationUrl = normalizeEmbedUrl(project.simulationUrl);
 
   return (
     <>
@@ -154,6 +157,30 @@ export default async function ProjectPage({
             />
           </div>
         </section>
+
+        {simulationUrl && (
+          <section className="pb-24 lg:pb-32 px-6 lg:px-12">
+            <div className="max-w-[1400px] mx-auto">
+              <div className="flex items-end justify-between mb-10">
+                <div>
+                  <div className="flex items-center gap-4 mb-4">
+                    <span className="h-px w-10 bg-accent" />
+                    <span className="text-accent text-xs tracking-[0.5em]">
+                      3D SIMULATION
+                    </span>
+                  </div>
+                  <h2 className="font-serif text-3xl md:text-4xl font-light">
+                    模擬影像
+                  </h2>
+                </div>
+                <div className="text-[10px] tracking-[0.3em] text-foreground/50 hidden md:block">
+                  拖曳轉換視角 · 點地面移動
+                </div>
+              </div>
+              <SimulationViewer src={simulationUrl} poster={project.cover} title={project.title} />
+            </div>
+          </section>
+        )}
 
         {/* Prev / Next navigation */}
         <section className="border-t border-white/10 px-6 lg:px-12">

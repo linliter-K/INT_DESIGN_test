@@ -29,6 +29,7 @@ import {
   writeContent,
 } from "../lib/content/store";
 import type { SiteContent } from "../lib/content/types";
+import { normalizeEmbedUrl } from "../lib/embed";
 import { listInquiries, deleteInquiry } from "../lib/inquiries";
 import { getReport } from "../lib/analytics";
 
@@ -89,6 +90,12 @@ export async function saveContent(content: SiteContent) {
     throw new Error("作品網址代碼只能用小寫英文、數字與 -");
   }
   if (new Set(ids).size !== ids.length) throw new Error("作品網址代碼重複");
+  for (const p of content.projects) {
+    if (p.simulationUrl?.trim() && !normalizeEmbedUrl(p.simulationUrl)) {
+      throw new Error(`「${p.title}」的 3D 預覽網址格式不對，需要 https:// 開頭`);
+    }
+    p.simulationUrl = normalizeEmbedUrl(p.simulationUrl);
+  }
 
   await writeContent(content, { uid: session.uid });
   updateTag(CONTENT_TAG);

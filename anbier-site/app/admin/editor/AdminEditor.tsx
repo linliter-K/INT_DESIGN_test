@@ -20,6 +20,7 @@ import CatalogEditor from "./CatalogEditor";
 import UsersPanel from "./UsersPanel";
 import AnalyticsPanel from "./AnalyticsPanel";
 import VersionsPanel from "./VersionsPanel";
+import { normalizeEmbedUrl } from "../../lib/embed";
 import { SortableList, SortableItem, arrayMove } from "./sortable";
 import { NO_TRACK_KEY } from "../../lib/track";
 import type { AdminSession } from "../../lib/session";
@@ -527,6 +528,19 @@ function ProjectsEditor({
 
           <Section title="作品影像">
             <GalleryInput value={p.gallery} onChange={(v) => update({ ...p, gallery: v })} />
+          </Section>
+
+          <Section title="模擬影像（3D 漫遊）">
+            <TextInput
+              label="3D 預覽網址"
+              value={p.simulationUrl ?? ""}
+              placeholder="https://yun.kujiale.com/cloud/design/.../airoaming"
+              hint="貼上酷家樂等 3D 漫遊的分享網址（或整段嵌入碼）；留空就不顯示"
+              onChange={(v) => update({ ...p, simulationUrl: v })}
+            />
+            {p.simulationUrl?.trim() && !normalizeEmbedUrl(p.simulationUrl) && (
+              <p className="mt-2 text-xs text-red-400">網址格式不對，需要 https:// 開頭的網址</p>
+            )}
           </Section>
         </div>
       ) : (
