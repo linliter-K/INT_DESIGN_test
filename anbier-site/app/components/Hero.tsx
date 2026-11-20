@@ -15,7 +15,7 @@ export default function Hero({ hero }: { hero: SiteContent["hero"] }) {
       <div className="absolute inset-0 animate-kenburns">
         <Image
           src={hero.image}
-          alt="AMB hero"
+          alt="TDZ hero"
           fill
           priority
           className="object-cover"

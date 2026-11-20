@@ -6,8 +6,8 @@ import SaveButton from "../components/SaveButton";
 import { getContent } from "../lib/content/store";
 
 export const metadata = {
-  title: "作品 Works | AMB 艾柏設計",
-  description: "AMB 艾柏設計完整作品列表——住宅、商業、公共空間。",
+  title: "作品 Works | TDZ 桑德斯設計",
+  description: "TDZ 桑德斯設計完整作品列表——住宅、商業、公共空間。",
 };
 
 export default async function AllProjectsPage() {
@@ -28,7 +28,7 @@ export default async function AllProjectsPage() {
               作品總覽
             </h1>
             <p className="mt-6 text-foreground/60 max-w-2xl leading-relaxed">
-              每一件作品，都是 AMB 艾柏設計對「家」與「場所」的不同提問。
+              每一件作品，都是 TDZ 桑德斯設計對「家」與「場所」的不同提問。
               共 {projects.length} 件精選作品。
             </p>
           </div>

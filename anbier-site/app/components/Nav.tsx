@@ -50,10 +50,10 @@ export default function Nav() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
         <Link href="/" className="group flex items-baseline gap-2">
           <span className="font-serif text-2xl tracking-[0.3em] text-foreground">
-            AMB
+            TDZ
           </span>
           <span className="text-[10px] tracking-[0.4em] text-muted group-hover:text-accent transition-colors">
-            艾柏設計
+            桑德斯設計
           </span>
         </Link>
 

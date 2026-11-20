@@ -90,11 +90,33 @@ export async function getContent(): Promise<SiteContent> {
 // 本機模式的舊版放 .local-content（不進 git），避免 repo 塞滿歷史檔
 const LOCAL_HISTORY = path.join(process.cwd(), ".local-content", "content-history");
 
-export type ContentVersion = { id: string; savedAt: number };
+export type SaveInfo = { uid: string; restored?: boolean };
+export type ContentVersion = { id: string; savedAt: number; savedBy: string | null; restored: boolean };
+
+// Blob 不支援自訂 metadata，所以把儲存者寫進檔名：site-<時間>-by-<uid> 或 -restore-<uid>
+const SAVER_IN_PATH = /-(by|restore)-([a-z0-9]+)(?:-|\.json)/i;
+
+function saverFromPath(pathname: string) {
+  const m = pathname.match(SAVER_IN_PATH);
+  return { savedBy: m ? m[2] : null, restored: m?.[1] === "restore" };
+}
 
 async function listBlobVersions() {
   const { blobs } = await list({ prefix: CONTENT_PREFIX, limit: 100 });
   return blobs.sort((a, b) => +new Date(b.uploadedAt) - +new Date(a.uploadedAt));
+}
+
+async function readLocalMeta(file: string) {
+  try {
+    const snap = JSON.parse(await fs.readFile(file, "utf-8"));
+    return {
+      updatedAt: Number(snap?.updatedAt) || 0,
+      savedBy: typeof snap?.savedBy === "string" ? snap.savedBy : null,
+      restored: Boolean(snap?.restored),
+    };
+  } catch {
+    return null;
+  }
 }
 
 // 回傳由新到舊，第一筆就是目前網站正在用的版本
@@ -103,16 +125,20 @@ export async function listContentVersions(): Promise<ContentVersion[]> {
     return (await listBlobVersions()).map((b) => ({
       id: b.pathname,
       savedAt: new Date(b.uploadedAt).getTime(),
+      ...saverFromPath(b.pathname),
     }));
   }
   const versions: ContentVersion[] = [];
-  const current = await readSnapshot();
-  if (current?.updatedAt) versions.push({ id: "current", savedAt: current.updatedAt });
+  const current = await readLocalMeta(SNAPSHOT_FILE);
+  if (current?.updatedAt) {
+    versions.push({ id: "current", savedAt: current.updatedAt, savedBy: current.savedBy, restored: current.restored });
+  }
   try {
-    const files = await fs.readdir(LOCAL_HISTORY);
-    for (const f of files) {
+    for (const f of await fs.readdir(LOCAL_HISTORY)) {
       const t = Number(f.replace(/\.json$/, ""));
-      if (t) versions.push({ id: f, savedAt: t });
+      if (!t) continue;
+      const meta = await readLocalMeta(path.join(LOCAL_HISTORY, f));
+      versions.push({ id: f, savedAt: t, savedBy: meta?.savedBy ?? null, restored: meta?.restored ?? false });
     }
   } catch {}
   return versions.sort((a, b) => b.savedAt - a.savedAt).slice(0, KEEP_VERSIONS);
@@ -139,14 +165,16 @@ export async function readContentVersion(id: string): Promise<Partial<SiteConten
 }
 
 async function archiveLocalSnapshot() {
-  const current = await readSnapshot();
-  if (!current?.updatedAt) return;
+  let raw: string;
+  try {
+    raw = await fs.readFile(SNAPSHOT_FILE, "utf-8");
+  } catch {
+    return;
+  }
+  const updatedAt = Number(JSON.parse(raw)?.updatedAt) || 0;
+  if (!updatedAt) return;
   await fs.mkdir(LOCAL_HISTORY, { recursive: true });
-  await fs.writeFile(
-    path.join(LOCAL_HISTORY, `${current.updatedAt}.json`),
-    JSON.stringify(current),
-    "utf-8"
-  );
+  await fs.writeFile(path.join(LOCAL_HISTORY, `${updatedAt}.json`), raw, "utf-8");
   const files = (await fs.readdir(LOCAL_HISTORY)).sort((a, b) => parseInt(b) - parseInt(a));
   // 目前版本本身也算一版，所以歷史只留 KEEP_VERSIONS - 1 份
   for (const f of files.slice(KEEP_VERSIONS - 1)) {
@@ -154,19 +182,25 @@ async function archiveLocalSnapshot() {
   }
 }
 
-export async function writeContent(content: SiteContent) {
+export async function writeContent(content: SiteContent, by: SaveInfo) {
+  if (!/^[a-z0-9]+$/i.test(by.uid)) throw new Error("帳號代碼錯誤");
   if (!isBlobEnabled()) {
     await archiveLocalSnapshot();
     await fs.mkdir(path.dirname(SNAPSHOT_FILE), { recursive: true });
     await fs.writeFile(
       SNAPSHOT_FILE,
-      JSON.stringify({ updatedAt: Date.now(), content }, null, 2) + "\n",
+      JSON.stringify(
+        { updatedAt: Date.now(), savedBy: by.uid, ...(by.restored && { restored: true }), content },
+        null,
+        2
+      ) + "\n",
       "utf-8"
     );
     return;
   }
   const json = JSON.stringify(content);
-  await put(`${CONTENT_PREFIX}${Date.now()}.json`, json, {
+  const kind = by.restored ? "restore" : "by";
+  await put(`${CONTENT_PREFIX}${Date.now()}-${kind}-${by.uid}.json`, json, {
     access: "public",
     contentType: "application/json",
     addRandomSuffix: true,

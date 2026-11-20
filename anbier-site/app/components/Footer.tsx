@@ -18,10 +18,10 @@ export default async function Footer() {
           <div className="col-span-2 md:max-w-[260px]">
             <div className="flex items-baseline gap-2 mb-4">
               <span className="font-serif text-xl tracking-[0.3em]">
-                AMB
+                TDZ
               </span>
               <span className="text-[10px] tracking-[0.4em] text-muted">
-                艾柏設計
+                桑德斯設計
               </span>
             </div>
             <p className="text-xs text-foreground/50 leading-relaxed">
@@ -60,7 +60,7 @@ export default async function Footer() {
             prefetch={false}
             className="text-xs text-foreground/40 cursor-text"
           >
-            © {new Date().getFullYear()} AMB 艾柏設計. All rights reserved.
+            © {new Date().getFullYear()} TDZ 桑德斯設計. All rights reserved.
           </Link>
           <p className="text-[10px] tracking-[0.3em] text-foreground/30">
             {footer.slogan}

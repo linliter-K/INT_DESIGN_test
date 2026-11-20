@@ -4,10 +4,10 @@ import type { SiteContent } from "./types";
 // 後台尚未存過任何內容時的初始版本；也是新增欄位時的補值來源
 export const defaultContent: SiteContent = {
   hero: {
-    kicker: "— AMB INTERIOR DESIGN",
+    kicker: "— TDZ INTERIOR DESIGN",
     title: "在光影之間\n*雕塑*生活",
     subtitle:
-      "以工業風的沉穩骨架，承載現代生活的輕盈。AMB 艾柏設計相信，空間不只是容器，而是敘事本身。",
+      "以工業風的沉穩骨架，承載現代生活的輕盈。TDZ 桑德斯設計相信，空間不只是容器，而是敘事本身。",
     image: "/placeholder/covers/equilibrium.png",
     sideText: "INTERIOR · ARCHITECTURE · SPACE",
     ctaPrimary: "探索作品",
@@ -17,7 +17,7 @@ export const defaultContent: SiteContent = {
     kicker: "SELECTED WORKS",
     title: "近期作品",
     subtitle:
-      "從住宅到商業空間，每個案子都是一次關於生活方式的提案。以下為 AMB 近期部分作品選粹。",
+      "從住宅到商業空間，每個案子都是一次關於生活方式的提案。以下為 TDZ 近期部分作品選粹。",
   },
   services: {
     kicker: "WHAT WE DO",
@@ -56,10 +56,10 @@ export const defaultContent: SiteContent = {
     ],
   },
   about: {
-    kicker: "ABOUT AMB",
+    kicker: "ABOUT TDZ",
     title: "讓每一處轉角，\n都有*被凝視*的理由。",
     paragraphs: [
-      "AMB 艾柏設計成立於 2009 年，從一間小型設計工作室出發，至今已完成超過 200 件住宅與商業空間設計。我們相信「設計是生活的骨架」——每一次規劃都從屋主的日常節奏開始。",
+      "TDZ 桑德斯設計成立於 2009 年，從一間小型設計工作室出發，至今已完成超過 200 件住宅與商業空間設計。我們相信「設計是生活的骨架」——每一次規劃都從屋主的日常節奏開始。",
       "以工業風與現代風為我們的設計語彙核心，但不拘泥於單一風格；依據每位業主的個性與需求，靈活融入日式、北歐、輕奢、侘寂等不同元素，創造出真正屬於你的場所。",
     ],
     image: "/placeholder/covers/serenity.png",
@@ -80,7 +80,7 @@ export const defaultContent: SiteContent = {
     email: "hello@anbier.design",
     hours: ["週一至週五 10:00 – 19:00", "週末採預約制"],
     successTitle: "訊息已送出",
-    successText: "感謝您的來信，AMB 團隊會於 1 個工作日內與您聯繫。",
+    successText: "感謝您的來信，TDZ 團隊會於 1 個工作日內與您聯繫。",
   },
   footer: {
     tagline:
@@ -93,7 +93,7 @@ export const defaultContent: SiteContent = {
     kicker: "MATERIAL LIBRARY",
     title: "材質選樣",
     subtitle:
-      "材質決定空間的溫度。以下是 AMB 常用的主材，每一種都經過實際施作驗證——觸感、耐用度與老化後的樣貌，我們都替你想過。",
+      "材質決定空間的溫度。以下是 TDZ 常用的主材，每一種都經過實際施作驗證——觸感、耐用度與老化後的樣貌，我們都替你想過。",
     categories: ["金屬", "泥作", "木作", "石材", "織品"],
     items: [
       {
@@ -190,7 +190,7 @@ export const defaultContent: SiteContent = {
     kicker: "FURNISHING",
     title: "軟裝選品",
     subtitle:
-      "家具、燈光與織品決定了空間住起來的感覺。以下是 AMB 常為業主搭配的軟裝品項，從比例、材質到動線一起考量，讓硬體與軟裝成為一體。",
+      "家具、燈光與織品決定了空間住起來的感覺。以下是 TDZ 常為業主搭配的軟裝品項，從比例、材質到動線一起考量，讓硬體與軟裝成為一體。",
     categories: ["沙發", "桌子", "椅子", "燈具", "窗簾", "智能家電"],
     items: [
       {

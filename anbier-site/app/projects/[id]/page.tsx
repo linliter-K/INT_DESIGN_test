@@ -26,7 +26,7 @@ export async function generateMetadata({
   const { project: p } = await findProject(id);
   if (!p) return {};
   return {
-    title: `${p.title} ${p.titleEn} | AMB 艾柏設計`,
+    title: `${p.title} ${p.titleEn} | TDZ 桑德斯設計`,
     description: p.description[0],
   };
 }

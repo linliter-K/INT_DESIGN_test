@@ -94,7 +94,7 @@ export default function AdminEditor({
       <header className="sticky top-0 z-40 bg-surface/95 backdrop-blur border-b border-white/10">
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 flex flex-wrap items-center gap-3 justify-between">
           <div className="flex items-baseline gap-3">
-            <span className="font-serif text-lg tracking-[0.3em]">AMB</span>
+            <span className="font-serif text-lg tracking-[0.3em]">TDZ</span>
             <span className="text-[10px] tracking-[0.4em] text-accent">網站後台</span>
             {storageMode === "local" && (
               <span

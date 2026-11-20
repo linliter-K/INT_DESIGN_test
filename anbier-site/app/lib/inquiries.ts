@@ -123,7 +123,7 @@ export async function sendInquiryEmail(inquiry: Inquiry, origin: string) {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      from: process.env.INQUIRY_FROM_EMAIL || "AMB 官網 <onboarding@resend.dev>",
+      from: process.env.INQUIRY_FROM_EMAIL || "TDZ 官網 <onboarding@resend.dev>",
       to: to.split(",").map((s) => s.trim()),
       // 直接按回覆就能回給客戶
       reply_to: inquiry.email,

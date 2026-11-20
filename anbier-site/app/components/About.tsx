@@ -19,7 +19,7 @@ export default function About({ about }: { about: SiteContent["about"] }) {
           <div className="relative aspect-[4/5] overflow-hidden">
             <Image
               src={about.image}
-              alt="AMB studio"
+              alt="TDZ studio"
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="object-cover"

@@ -4,7 +4,7 @@ import { isBlobEnabled, readContentUncached } from "../lib/content/store";
 import AdminEditor from "./editor/AdminEditor";
 
 export const metadata = {
-  title: "後台 | AMB",
+  title: "後台 | TDZ",
   robots: { index: false, follow: false },
 };
 

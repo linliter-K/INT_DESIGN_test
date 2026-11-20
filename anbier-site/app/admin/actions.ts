@@ -80,7 +80,7 @@ export async function logout() {
 }
 
 export async function saveContent(content: SiteContent) {
-  await requireAdmin();
+  const session = await requireAdmin();
   if (!content || !Array.isArray(content.projects) || !content.hero) {
     throw new Error("內容格式錯誤");
   }
@@ -90,23 +90,33 @@ export async function saveContent(content: SiteContent) {
   }
   if (new Set(ids).size !== ids.length) throw new Error("作品網址代碼重複");
 
-  await writeContent(content);
+  await writeContent(content, { uid: session.uid });
   updateTag(CONTENT_TAG);
   revalidatePath("/", "layout");
   return { savedAt: Date.now() };
 }
 
+// 檔名只存 uid，名稱在這裡即時對照：員工改名後舊紀錄也會顯示新名字
 export async function fetchContentVersions() {
   await requireAdmin();
-  return listContentVersions();
+  const [versions, users] = await Promise.all([listContentVersions(), readUsers().catch(() => [])]);
+  const names = new Map(users.map((u) => [u.id, u.name]));
+  return versions.map((v) => ({
+    ...v,
+    savedByName: !v.savedBy
+      ? null
+      : v.savedBy === OWNER_ID
+        ? "管理者"
+        : (names.get(v.savedBy) ?? "已刪除的帳號"),
+  }));
 }
 
 // 還原 = 把舊版當成新的一版存回去，所以還原本身也能再被還原（不會弄丟目前版本）
 export async function restoreContentVersion(id: string) {
-  await requireAdmin();
+  const session = await requireAdmin();
   const old = await readContentVersion(String(id));
   const content = mergeWithDefaults(old);
-  await writeContent(content);
+  await writeContent(content, { uid: session.uid, restored: true });
   updateTag(CONTENT_TAG);
   revalidatePath("/", "layout");
   return content;

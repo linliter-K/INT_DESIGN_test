@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { fetchContentVersions, restoreContentVersion } from "../actions";
-import type { ContentVersion } from "../../lib/content/store";
 import type { SiteContent } from "../../lib/content/types";
+
+type ContentVersion = Awaited<ReturnType<typeof fetchContentVersions>>[number];
 
 const fmt = (t: number) => new Date(t).toLocaleString("zh-TW", { hour12: false });
 const LABELS = ["目前版本", "上一個版本", "上上一個版本"];
@@ -77,6 +78,18 @@ export default function VersionsPanel({
                   {label}
                 </span>
                 <span className="font-mono text-sm text-foreground/70">{fmt(v.savedAt)}</span>
+                <span className="text-sm text-foreground/70">
+                  {v.savedByName ? (
+                    <>
+                      {v.restored ? "還原者" : "儲存者"}：<span className="text-foreground">{v.savedByName}</span>
+                    </>
+                  ) : (
+                    <span className="text-foreground/40">儲存者：未記錄</span>
+                  )}
+                </span>
+                {v.restored && (
+                  <span className="text-[10px] px-2 py-0.5 border border-white/15 text-foreground/50">還原版</span>
+                )}
                 <div className="ml-auto">
                   {i === 0 ? (
                     <span className="text-[10px] px-2 py-0.5 border border-green-500/40 text-green-400">網站使用中</span>
