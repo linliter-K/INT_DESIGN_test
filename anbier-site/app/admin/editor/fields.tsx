@@ -218,9 +218,11 @@ export function ImageInput({
 export function GalleryInput({
   value,
   onChange,
+  label = "作品影像",
 }: {
   value: string[];
   onChange: (v: string[]) => void;
+  label?: string;
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const { busy, error, upload } = useUploader();
@@ -278,7 +280,7 @@ export function GalleryInput({
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
         <span className="text-[11px] tracking-[0.2em] text-accent">
-          作品影像（{value.length} 張）
+          {label}（{value.length} 張）
         </span>
         <div className="flex flex-wrap gap-2">
           {selecting ? (

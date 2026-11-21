@@ -601,6 +601,15 @@ function ProjectsEditor({
             <GalleryInput value={p.gallery} onChange={(v) => update({ ...p, gallery: v })} />
           </Section>
 
+          <Section title="實際施工圖">
+            <GalleryInput
+              label="實際施工圖"
+              value={p.constructionPhotos ?? []}
+              onChange={(v) => update({ ...p, constructionPhotos: v })}
+            />
+            <p className="mt-2 text-[11px] text-foreground/40">沒有上傳圖片時，前台會自動隱藏這一區</p>
+          </Section>
+
           <Section title="模擬影像（3D 漫遊）">
             <TextInput
               label="3D 預覽網址"

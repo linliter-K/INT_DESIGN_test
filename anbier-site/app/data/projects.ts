@@ -11,6 +11,8 @@ export type Project = {
   info: Record<string, string>;
   description: string[];
   concept: string;
+  // 實際施工照片，沒有就整區不顯示（舊資料沒這個欄位，所以是選填）
+  constructionPhotos?: string[];
   // 酷家樂等 3D 漫遊分享網址，空白就不顯示「模擬影像」區塊
   simulationUrl?: string;
 };

@@ -47,6 +47,7 @@ export default async function ProjectPage({
   const prev = projects[(idx - 1 + projects.length) % projects.length];
   const next = projects[(idx + 1) % projects.length];
   const simulationUrl = normalizeEmbedUrl(project.simulationUrl);
+  const constructionPhotos = project.constructionPhotos ?? [];
 
   return (
     <>
@@ -159,6 +160,34 @@ export default async function ProjectPage({
             />
           </div>
         </section>
+
+        {constructionPhotos.length > 0 && (
+          <section className="pb-24 lg:pb-32 px-6 lg:px-12">
+            <div className="max-w-[1400px] mx-auto">
+              <div className="flex items-end justify-between mb-10">
+                <div>
+                  <div className="flex items-center gap-4 mb-4">
+                    <span className="h-px w-10 bg-accent" />
+                    <span className="text-accent text-xs tracking-[0.5em]">
+                      CONSTRUCTION
+                    </span>
+                  </div>
+                  <h2 className="font-serif text-3xl md:text-4xl font-light">
+                    實際施工圖
+                  </h2>
+                </div>
+                <div className="text-[10px] tracking-[0.3em] text-foreground/50 hidden md:block">
+                  {constructionPhotos.length} IMAGES · 點擊放大 · ♡ 加入參考清單
+                </div>
+              </div>
+              <ProjectGallery
+                images={constructionPhotos}
+                title={`${project.title}・施工`}
+                href={`/projects/${project.id}`}
+              />
+            </div>
+          </section>
+        )}
 
         {simulationUrl && (
           <section className="pb-24 lg:pb-32 px-6 lg:px-12">
