@@ -293,7 +293,7 @@ export default function AdminEditor({
                 render={(p, setP) => (
                   <>
                     <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6">
-                      <ImageInput label="方案圖片" aspect="aspect-[4/3]" value={p.image} onChange={(v) => setP({ ...p, image: v })} />
+                      <ImageInput label="方案圖片" aspect="aspect-[4/3]" removable value={p.image} onChange={(v) => setP({ ...p, image: v })} />
                       <div className="space-y-4">
                         <Grid2>
                           <TextInput label="方案名稱" value={p.name} onChange={(v) => setP({ ...p, name: v })} />

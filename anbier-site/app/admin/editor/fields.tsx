@@ -145,11 +145,14 @@ export function ImageInput({
   value,
   onChange,
   aspect = "aspect-[4/3]",
+  removable = false,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   aspect?: string;
+  // 只開給前台能處理「沒圖」的欄位；主視覺、封面等空值會讓 next/image 直接報錯
+  removable?: boolean;
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const { busy, error, upload } = useUploader();
@@ -184,6 +187,15 @@ export function ImageInput({
           >
             {value ? "更換圖片" : "上傳圖片"}
           </button>
+          {removable && value && (
+            <button
+              type="button"
+              onClick={() => confirm("確定要移除這張圖片？（按下「儲存」後才會生效）") && onChange("")}
+              className="px-4 py-2 text-xs tracking-[0.2em] border border-red-400/50 text-red-400 hover:bg-red-500/20 transition-colors"
+            >
+              移除圖片
+            </button>
+          )}
           <input
             ref={fileRef}
             type="file"
@@ -226,6 +238,31 @@ export function GalleryInput({
     return `${src}#${n}`;
   });
 
+  // 多選模式記的是位置；同一張圖出現兩次時也能只刪其中一張
+  const [selecting, setSelecting] = useState(false);
+  const [picked, setPicked] = useState<Set<number>>(new Set());
+
+  function exitSelect() {
+    setSelecting(false);
+    setPicked(new Set());
+  }
+
+  function togglePick(i: number) {
+    setPicked((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  }
+
+  function deletePicked() {
+    if (!picked.size) return;
+    if (!confirm(`確定要移除選取的 ${picked.size} 張圖片？（按下「儲存」後才會生效）`)) return;
+    onChange(value.filter((_, k) => !picked.has(k)));
+    exitSelect();
+  }
+
   function move(i: number, d: number) {
     const j = i + d;
     if (j < 0 || j >= value.length) return;
@@ -234,19 +271,58 @@ export function GalleryInput({
     onChange(next);
   }
 
+  const btnCls =
+    "px-4 py-2 text-xs tracking-[0.2em] border transition-colors disabled:opacity-40 disabled:pointer-events-none";
+
   return (
     <div>
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
         <span className="text-[11px] tracking-[0.2em] text-accent">
           作品影像（{value.length} 張）
         </span>
-        <button
-          type="button"
-          onClick={() => fileRef.current?.click()}
-          className="px-4 py-2 text-xs tracking-[0.2em] border border-accent/50 text-accent hover:bg-accent hover:text-background transition-colors"
-        >
-          {busy > 0 ? `上傳中（剩 ${busy} 張）…` : "+ 新增圖片（可多選）"}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          {selecting ? (
+            <>
+              <button
+                type="button"
+                onClick={() => setPicked(picked.size === value.length ? new Set() : new Set(value.map((_, k) => k)))}
+                className={`${btnCls} border-white/20 text-foreground/80 hover:bg-white/10`}
+              >
+                {picked.size === value.length ? "取消全選" : "全選"}
+              </button>
+              <button
+                type="button"
+                onClick={deletePicked}
+                disabled={!picked.size}
+                className={`${btnCls} border-red-400/60 text-red-400 hover:bg-red-500/20`}
+              >
+                刪除已選（{picked.size}）
+              </button>
+              <button type="button" onClick={exitSelect} className={`${btnCls} border-white/20 text-foreground/60 hover:bg-white/10`}>
+                完成
+              </button>
+            </>
+          ) : (
+            <>
+              {value.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setSelecting(true)}
+                  className={`${btnCls} border-white/20 text-foreground/80 hover:bg-white/10`}
+                >
+                  選取刪除
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                className={`${btnCls} border-accent/50 text-accent hover:bg-accent hover:text-background`}
+              >
+                {busy > 0 ? `上傳中（剩 ${busy} 張）…` : "+ 新增圖片（可多選）"}
+              </button>
+            </>
+          )}
+        </div>
         <input
           ref={fileRef}
           type="file"
@@ -262,6 +338,36 @@ export function GalleryInput({
         />
       </div>
       {error && <p className="text-xs text-red-400 mb-2">{error}</p>}
+      {selecting ? (
+        <>
+          <p className="text-[11px] text-foreground/40 mb-2">點圖片勾選要刪除的，可以一次選很多張</p>
+          {/* 選取模式不掛拖曳，避免點選時誤觸排序 */}
+          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+            {value.map((src, i) => {
+              const on = picked.has(i);
+              return (
+                <button
+                  key={galleryIds[i]}
+                  type="button"
+                  onClick={() => togglePick(i)}
+                  aria-pressed={on}
+                  className={`relative aspect-[4/3] bg-background overflow-hidden border-2 transition-colors ${on ? "border-red-400" : "border-white/10 hover:border-white/30"}`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={src} alt="" draggable={false} className={`absolute inset-0 w-full h-full object-cover transition-opacity ${on ? "opacity-50" : ""}`} />
+                  <span className="absolute top-1 left-1 px-1.5 text-[10px] bg-background/80">{i + 1}</span>
+                  <span
+                    className={`absolute top-1 right-1 grid place-items-center w-5 h-5 text-[11px] border ${on ? "bg-red-500 border-red-500 text-white" : "bg-background/70 border-white/40"}`}
+                  >
+                    {on ? "✓" : ""}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </>
+      ) : (
+      <>
       {value.length > 1 && <p className="text-[11px] text-foreground/40 mb-2">按住圖片拖曳可調整順序（手機請長按）</p>}
       <SortableList ids={galleryIds} onMove={(from, to) => onChange(arrayMove(value, from, to))} grid>
       <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
@@ -281,6 +387,8 @@ export function GalleryInput({
         ))}
       </div>
       </SortableList>
+      </>
+      )}
     </div>
   );
 }

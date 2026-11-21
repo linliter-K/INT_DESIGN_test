@@ -348,7 +348,7 @@ export default function CatalogEditor({
               </div>
               {open && (
               <div className="p-4 grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6">
-                <ImageInput label="圖片" aspect="aspect-square" value={m.image} onChange={(v) => setItem(index, { ...m, image: v })} />
+                <ImageInput label="圖片" aspect="aspect-square" removable value={m.image} onChange={(v) => setItem(index, { ...m, image: v })} />
                 <div className="space-y-4">
                   <Grid2>
                     <TextInput label="名稱" value={m.name} onChange={(v) => setItem(index, { ...m, name: v })} />
