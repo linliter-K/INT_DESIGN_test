@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { IMAGE_QUALITY } from "../../lib/images";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import { getContent } from "../../lib/content/store";
@@ -59,6 +60,7 @@ export default async function ProjectPage({
             fill
             priority
             sizes="100vw"
+            quality={IMAGE_QUALITY}
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />

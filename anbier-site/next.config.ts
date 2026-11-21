@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
     "/**": ["./content/**/*.json"],
   },
   images: {
+    // 75 給一般圖，85 給作品封面（app/lib/images.ts）
+    qualities: [75, 85],
     // 後台上傳的圖片存在 Vercel Blob
     remotePatterns: [
       {

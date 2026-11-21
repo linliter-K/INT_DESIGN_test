@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { IMAGE_QUALITY, PROJECT_CARD_SIZES } from "../lib/images";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import SaveButton from "../components/SaveButton";
@@ -47,7 +48,8 @@ export default async function AllProjectsPage() {
                     src={p.cover}
                     alt={p.title}
                     fill
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    sizes={PROJECT_CARD_SIZES}
+                    quality={IMAGE_QUALITY}
                     className="object-cover transition-transform duration-[1.2s] group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
