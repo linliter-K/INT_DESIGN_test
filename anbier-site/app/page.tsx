@@ -19,7 +19,10 @@ export default async function Home() {
         <Plans plans={content.plans} />
         <Services services={content.services} />
         <About about={content.about} />
-        <Contact contact={content.contact} />
+        <Contact
+          contact={content.contact}
+          social={{ instagram: content.footer.instagram, facebook: content.footer.facebook }}
+        />
       </main>
       <Footer />
     </>

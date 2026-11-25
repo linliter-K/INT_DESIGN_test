@@ -1,4 +1,942 @@
 {
-  "updatedAt": 0,
-  "content": null
+  "updatedAt": 1795518842000,
+  "content": {
+    "hero": {
+      "kicker": "— THUNDEZZ INTERIOR DESIGN",
+      "title": "在光影之間\n*雕塑*生活",
+      "subtitle": "以工業風的沉穩骨架，承載現代生活的輕盈。TDZ 桑德斯設計相信，空間不只是容器，而是敘事本身。",
+      "image": "/placeholder/covers/equilibrium.png",
+      "sideText": "INTERIOR · ARCHITECTURE · SPACE",
+      "ctaPrimary": "探索作品",
+      "ctaSecondary": "預約諮詢 →"
+    },
+    "portfolio": {
+      "kicker": "SELECTED WORKS",
+      "title": "近期作品",
+      "subtitle": "從住宅到商業空間，每個案子都是一次關於生活方式的提案。以下為 TDZ 近期部分作品選粹。"
+    },
+    "services": {
+      "kicker": "WHAT WE DO",
+      "title": "服務項目",
+      "subtitle": "以工業風與現代風為核心，橫跨各式設計語彙——從私領域的家，到公領域的商業場所。",
+      "items": [
+        {
+          "num": "01",
+          "title": "住宅空間設計",
+          "en": "Residential Design",
+          "desc": "從格局配置到軟裝挑選，量身打造屬於屋主生活節奏的家。",
+          "points": [
+            "格局規劃",
+            "風格定位",
+            "軟裝佈置",
+            "燈光照明"
+          ]
+        },
+        {
+          "num": "02",
+          "title": "商業空間設計",
+          "en": "Commercial Design",
+          "desc": "為品牌打造兼顧視覺辨識與顧客體驗的商業場域。",
+          "points": [
+            "餐飲空間",
+            "零售門市",
+            "辦公空間",
+            "展示空間"
+          ]
+        },
+        {
+          "num": "03",
+          "title": "設計諮詢",
+          "en": "Design Consultation",
+          "desc": "針對屋主既有空間提供專業風格、動線與採購建議。",
+          "points": [
+            "風格評估",
+            "動線檢討",
+            "採購建議",
+            "色彩計畫"
+          ]
+        },
+        {
+          "num": "04",
+          "title": "工程統包施工",
+          "en": "Construction Management",
+          "desc": "從拆除、水電到木作、系統櫃，全案監造一條龍。",
+          "points": [
+            "泥作木作",
+            "水電工程",
+            "系統櫃體",
+            "完工保固"
+          ]
+        }
+      ]
+    },
+    "plans": {
+      "kicker": "PACKAGES",
+      "title": "全屋定制方案",
+      "subtitle": "依坪數與需求分級的含稅規劃預算，從小宅收納到三房深度定制，帶平面圖即可預約看樣與估價。",
+      "items": [
+        {
+          "id": "studio",
+          "name": "一房方案",
+          "audience": "一房新成屋｜室內約 8–13 坪",
+          "tagline": "小坪數先做好收納、平頂與基本照明",
+          "price": "40",
+          "priceUnit": "萬",
+          "priceNote": "含稅規劃預算",
+          "image": "/plans/studio-40.webp",
+          "highlights": [
+            "約 4–8 m 櫃體",
+            "基礎平釘",
+            "燈具與天花油漆"
+          ],
+          "items": [
+            {
+              "label": "定制櫃體",
+              "desc": "約 4–8 m，依需求配置玄關、衣櫃與矮櫃。"
+            },
+            {
+              "label": "木作天花",
+              "desc": "依施工區域施作基礎平釘天花。"
+            },
+            {
+              "label": "漆面照明",
+              "desc": "天花批土油漆、基礎燈具配置與安裝。"
+            },
+            {
+              "label": "規劃交付",
+              "desc": "空間與收納配置、選樣、複尺及櫃體運裝。"
+            }
+          ],
+          "extras": "家具、窗簾、特殊門型、廚衛與新增管線另估。",
+          "note": "以新成屋原格局及既有燈位可用為基準。櫃長依高低櫃與實際施作面積搭配。正式範圍與總價依書面報價。"
+        },
+        {
+          "id": "cozy",
+          "name": "小宅成家",
+          "audience": "二房新成屋｜室內約 12–18 坪",
+          "tagline": "先做好玄關、客廳與主臥的日常收納",
+          "price": "60",
+          "priceUnit": "萬",
+          "priceNote": "含稅規劃預算",
+          "image": "/plans/cozy-60.webp",
+          "highlights": [
+            "約 8 m 定制櫃",
+            "全室平釘約 15 坪",
+            "全室崁燈"
+          ],
+          "items": [
+            {
+              "label": "設計選材",
+              "desc": "平面收納配置、板色五金選樣、現場複尺。"
+            },
+            {
+              "label": "定制櫃體",
+              "desc": "鞋櫃、電視櫃、主臥衣櫃與梳妝台，合計約 8 m。"
+            },
+            {
+              "label": "天花照明",
+              "desc": "全室木作平釘天花約 15 坪、天花油漆及全室崁燈。"
+            },
+            {
+              "label": "現場交付",
+              "desc": "基礎保護、櫃體運裝、施工後清潔與分項驗收。"
+            }
+          ],
+          "extras": "次臥衣櫃、家具窗簾、額外造型與新增電路另估。",
+          "note": "廚衛、地坪及主要管線沿用。正式範圍與總價依書面報價。"
+        },
+        {
+          "id": "storage",
+          "name": "收納升級",
+          "audience": "二至小三房新成屋｜室內約 16–23 坪",
+          "tagline": "從玄關到餐廚與臥室，讓收納各就各位",
+          "price": "90",
+          "priceUnit": "萬",
+          "priceNote": "含稅規劃預算",
+          "image": "/plans/storage-90.webp",
+          "highlights": [
+            "約 12 m 定制櫃",
+            "全室平釘約 18 坪",
+            "客廳間接照明"
+          ],
+          "items": [
+            {
+              "label": "設計選材",
+              "desc": "客餐廳動線、櫃體配置、天花燈位與板色選樣。"
+            },
+            {
+              "label": "定制櫃體",
+              "desc": "鞋櫃、電視櫃、衣櫃、梳妝台、收納櫃及冰箱櫃，共約 12 m。"
+            },
+            {
+              "label": "天花油漆",
+              "desc": "全室平釘天花約 18 坪，含天花油漆與重點牆面油漆。"
+            },
+            {
+              "label": "照明點位",
+              "desc": "全室基礎崁燈、客廳間接照明及基礎開關插座調整。"
+            },
+            {
+              "label": "現場交付",
+              "desc": "基礎保護、櫃體運裝、完工清潔與分項驗收。"
+            }
+          ],
+          "extras": "第三房櫃體、冰箱、家具窗簾、造型天花與新增迴路另估。",
+          "note": "廚衛與地坪沿用。天花按實作面積，冰箱櫃按設備尺寸與散熱需求配置。正式範圍與總價依書面報價。"
+        },
+        {
+          "id": "function",
+          "name": "三房機能成家",
+          "audience": "小三房新成屋｜室內約 18–25 坪",
+          "tagline": "三房有收納，客餐廳燈光能切換情境",
+          "price": "120",
+          "priceUnit": "萬",
+          "priceNote": "含稅規劃預算",
+          "image": "/plans/function-120.webp",
+          "highlights": [
+            "約 16 m 定制櫃",
+            "三房機能收納",
+            "客餐廳智能燈具"
+          ],
+          "items": [
+            {
+              "label": "設計選材",
+              "desc": "平面動線、櫃體立面、天花照明與板色選樣。"
+            },
+            {
+              "label": "定制櫃體",
+              "desc": "鞋櫃、電視櫃、三房衣櫃、梳妝台、收納櫃及冰箱櫃，共約 16 m。"
+            },
+            {
+              "label": "天花工程",
+              "desc": "天花約 20 坪，含平釘、客餐廳局部造型與間接光、油漆及崁燈。"
+            },
+            {
+              "label": "基礎智能",
+              "desc": "客餐廳配置基礎智能燈具，含手機分區控制與情境設定。"
+            },
+            {
+              "label": "現場交付",
+              "desc": "含基本保護、定制櫃運裝、完工清潔與分項驗收。"
+            }
+          ],
+          "extras": "活動家具、窗簾、造型牆、臥室智能、電動窗簾及廚衛改造另估。",
+          "note": "原格局、廚衛及主要管線沿用。基礎開關插座點位、燈具型號與控制迴路依現場確認。正式範圍與總價依書面報價。"
+        },
+        {
+          "id": "integrate",
+          "name": "三房全室整合",
+          "audience": "三房新成屋｜室內約 20–28 坪",
+          "tagline": "全室基礎智能照明，搭配客餐廳家具",
+          "price": "150",
+          "priceUnit": "萬",
+          "priceNote": "含稅規劃預算",
+          "image": "/plans/integrate-150.webp",
+          "highlights": [
+            "約 18 m 定制櫃",
+            "全室基礎智能",
+            "客餐廳基礎軟裝"
+          ],
+          "items": [
+            {
+              "label": "設計圖面",
+              "desc": "全室平面、櫃體立面、天花照明圖與重點區域 3D。"
+            },
+            {
+              "label": "定制櫃體",
+              "desc": "約 18 m，含鞋櫃、電視櫃、三房衣櫃、梳妝台、冰箱櫃及餐邊櫃。"
+            },
+            {
+              "label": "工程配置",
+              "desc": "約 23 坪天花、公區造型、間接光、燈具、重點油漆及點位調整。"
+            },
+            {
+              "label": "基礎智能",
+              "desc": "玄關、客餐廳及各臥室照明，含手機分區控制、情境設定及教學。"
+            },
+            {
+              "label": "軟裝交付",
+              "desc": "沙發、餐桌椅各 1 組與窗簾 2 樘，含運裝、清潔與驗收。"
+            }
+          ],
+          "extras": "臥室家具、額外窗簾、電動簾、安防、廚衛重做與空調家電另估。",
+          "note": "以原格局與既有主要管線為基準。智能迴路及設備清單依現場確認。正式範圍與總價依書面報價。"
+        },
+        {
+          "id": "bespoke",
+          "name": "三房深度定制",
+          "audience": "三房新成屋｜室內約 24–32 坪",
+          "tagline": "整合全室定制櫃、智能情境與基礎軟裝",
+          "price": "200",
+          "priceUnit": "萬起",
+          "priceNote": "含稅規劃預算",
+          "image": "/plans/bespoke-200.webp",
+          "highlights": [
+            "約 22 m 定制櫃",
+            "全室智能整合",
+            "全室基礎軟裝"
+          ],
+          "items": [
+            {
+              "label": "設計圖面",
+              "desc": "全室平面、立面、水電燈位、重點 3D 與收口圖。"
+            },
+            {
+              "label": "定制櫃體",
+              "desc": "約 22 m，含玄關、客餐廳、三房衣櫃、梳妝、冰箱及展示收納。"
+            },
+            {
+              "label": "工程配置",
+              "desc": "主要空間天花、造型牆、間接光、燈具、油漆與水電點位。"
+            },
+            {
+              "label": "智能整合",
+              "desc": "全室照明、指定區電動簾、相容空調及門磁聯動，含情境設定。"
+            },
+            {
+              "label": "軟裝交付",
+              "desc": "沙發茶几、餐桌椅、三房床架與主要空間窗簾，含運裝驗收。"
+            }
+          ],
+          "extras": "整套廚衛、重大拆改、床墊、空調主機及家電、特殊石材另估。",
+          "note": "主要管線與格局沿用。智能設備型號、相容性、迴路及軟裝品項列入報價。正式範圍與總價依書面報價。"
+        }
+      ]
+    },
+    "about": {
+      "kicker": "ABOUT THUNDEZZ",
+      "title": "讓頂級設計不再昂貴\n",
+      "paragraphs": [
+        "THUNDEZZ 桑德斯設計成立於2020年，從一間小型設計工作室出發。\n透過「全屋定制」的垂直整合模式，直接對接頂級供應鏈。\n我們相信，設計的價值應在於創造空間的靈魂，而非堆砌昂貴的數字。\n我們將節省下來的每一分成本，直接回饋給對家有憧憬的您。",
+        "以工業風與現代風為我們的設計語彙核心，但不拘泥於單一風格；依據每位業主的個性與需求，靈活融入日式、北歐、輕奢、侘寂等不同元素，創造出真正屬於你的場所。"
+      ],
+      "image": "/placeholder/covers/serenity.png",
+      "stats": [
+        {
+          "num": "6+",
+          "label": "設計年資",
+          "en": "Years"
+        },
+        {
+          "num": "30+",
+          "label": "完工案件",
+          "en": "Projects"
+        },
+        {
+          "num": "98%",
+          "label": "客戶滿意度",
+          "en": "Satisfaction"
+        },
+        {
+          "num": "12",
+          "label": "設計獎項",
+          "en": "Awards"
+        }
+      ]
+    },
+    "contact": {
+      "kicker": "GET IN TOUCH",
+      "title": "談談你的\n*理想空間*",
+      "intro": "不論是正在裝修的新家、想翻新的老宅，或是品牌開店計畫——留下訊息，我們會在 3 個工作日內回覆。",
+      "address": "桃園展間 : 桃園市中壢區環中東路677號1F\n台中辦事處 : 台中市南屯區文山九街81號1F",
+      "phone": "0901 495 155",
+      "email": "thundezzinc@gmail.com",
+      "hours": [
+        "週一至週五 10:00 – 19:00",
+        "週末採預約制"
+      ],
+      "successTitle": "訊息已送出",
+      "successText": "感謝您的來信，我們會於 3 個工作日內與您聯繫。"
+    },
+    "footer": {
+      "tagline": "以工業風與現代風為核心的設計事務所，為每一位業主量身打造屬於自己的生活風景。",
+      "instagram": "https://www.instagram.com/thundezz_inc/",
+      "facebook": "https://www.facebook.com/thundezzdesign",
+      "slogan": "CRAFTED · SPACE · STORY"
+    },
+    "materials": {
+      "kicker": "MATERIAL LIBRARY",
+      "title": "材質選樣",
+      "subtitle": "材質決定空間的溫度。以下是 AMB 常用的主材，每一種都經過實際施作驗證——觸感、耐用度與老化後的樣貌，我們都替你想過。",
+      "categories": [
+        "金屬",
+        "泥作",
+        "木作",
+        "石材",
+        "織品"
+      ],
+      "items": [
+        {
+          "id": "black-iron",
+          "name": "黑鐵",
+          "nameEn": "Blackened Steel",
+          "category": "金屬",
+          "image": "/placeholder/materials/black-iron.png",
+          "description": "工業風的靈魂材質。經過發黑與封蠟處理後，保留鍛造痕跡與自然色差，越用越有味道。",
+          "features": [
+            "線條俐落",
+            "可薄可承重",
+            "可訂製造型"
+          ],
+          "usage": "樓梯扶手、層架、隔屏、門框"
+        },
+        {
+          "id": "concrete",
+          "name": "清水模",
+          "nameEn": "Fair-faced Concrete",
+          "category": "泥作",
+          "image": "/placeholder/materials/concrete.png",
+          "description": "保留混凝土最原始的質地與模板紋理。也可用清水模塗料在既有牆面上仿作，兼顧預算與效果。",
+          "features": [
+            "質樸沉穩",
+            "低彩度百搭",
+            "可仿作施工"
+          ],
+          "usage": "主牆、天花、商業空間地坪"
+        },
+        {
+          "id": "walnut",
+          "name": "胡桃木",
+          "nameEn": "Walnut",
+          "category": "木作",
+          "image": "/placeholder/materials/walnut.png",
+          "description": "深褐色調帶有細緻流動的紋理，能為冷調的工業語彙注入溫潤感，是我們最常用的實木皮之一。",
+          "features": [
+            "紋理細緻",
+            "色澤溫潤",
+            "質感高級"
+          ],
+          "usage": "櫃體門片、餐桌、牆面木皮"
+        },
+        {
+          "id": "white-oak",
+          "name": "白橡木",
+          "nameEn": "White Oak",
+          "category": "木作",
+          "image": "/placeholder/materials/white-oak.png",
+          "description": "淺色直紋，北歐與日式空間的首選。搭配霧面塗裝，能讓空間保持明亮與呼吸感。",
+          "features": [
+            "明亮清爽",
+            "直紋耐看",
+            "耐磨耐用"
+          ],
+          "usage": "木地板、系統櫃、天花造型"
+        },
+        {
+          "id": "marble",
+          "name": "大理石",
+          "nameEn": "Marble",
+          "category": "石材",
+          "image": "/placeholder/materials/marble.png",
+          "description": "每一塊都是獨一無二的天然紋路。適合作為空間焦點，搭配黑鐵或木作能平衡奢華與日常感。",
+          "features": [
+            "天然紋理",
+            "質感奢華",
+            "每片皆不同"
+          ],
+          "usage": "電視主牆、中島檯面、玄關地坪"
+        },
+        {
+          "id": "slate",
+          "name": "岩板",
+          "nameEn": "Sintered Stone",
+          "category": "石材",
+          "image": "/placeholder/materials/slate.png",
+          "description": "高溫燒結的大板材，有石材的外觀卻更耐刮、耐熱、不吃色，是廚房檯面的實用選擇。",
+          "features": [
+            "耐刮耐熱",
+            "不吃色",
+            "大板無縫"
+          ],
+          "usage": "廚房檯面、浴室牆面、餐桌面"
+        },
+        {
+          "id": "terrazzo",
+          "name": "磨石子",
+          "nameEn": "Terrazzo",
+          "category": "泥作",
+          "image": "/placeholder/materials/terrazzo.png",
+          "description": "台灣老屋的記憶材質，經現代配色重新詮釋後，成為兼具懷舊與設計感的地坪選擇。",
+          "features": [
+            "懷舊復古",
+            "可客製配色",
+            "耐用好清潔"
+          ],
+          "usage": "地坪、樓梯踏面、浴室檯面"
+        },
+        {
+          "id": "linen",
+          "name": "棉麻織品",
+          "nameEn": "Linen",
+          "category": "織品",
+          "image": "/placeholder/materials/linen.png",
+          "description": "天然纖維的柔軟與皺褶感，能軟化硬材質主導的空間，用於窗簾與寢具最能感受到差異。",
+          "features": [
+            "透氣自然",
+            "柔化空間",
+            "觸感舒適"
+          ],
+          "usage": "窗簾、寢具、沙發布套"
+        }
+      ]
+    },
+    "furnishings": {
+      "kicker": "FURNISHING",
+      "title": "軟裝選品",
+      "subtitle": "家具、燈光與織品決定了空間住起來的感覺。以下是 AMB 常為業主搭配的軟裝品項，從比例、材質到動線一起考量，讓硬體與軟裝成為一體。",
+      "categories": [
+        "沙發",
+        "桌子",
+        "椅子",
+        "燈具",
+        "窗簾",
+        "智能家電"
+      ],
+      "items": [
+        {
+          "id": "leather-sofa",
+          "name": "義式皮革沙發",
+          "nameEn": "Italian Leather Sofa",
+          "category": "沙發",
+          "image": "/placeholder/furnishings/leather-sofa.png",
+          "description": "低座深的線條搭配植鞣牛皮，越用越有光澤，是工業風客廳最穩定的主角。",
+          "features": [
+            "植鞣牛皮",
+            "低座深",
+            "可訂製尺寸"
+          ],
+          "usage": "客廳、書房"
+        },
+        {
+          "id": "modular-sofa",
+          "name": "模組布沙發",
+          "nameEn": "Modular Fabric Sofa",
+          "category": "沙發",
+          "image": "/placeholder/furnishings/modular-sofa.png",
+          "description": "可自由拆組成 L 型、一字型或躺椅，布套可拆洗，家有小孩或寵物也安心。",
+          "features": [
+            "自由組合",
+            "布套可拆洗",
+            "深座包覆"
+          ],
+          "usage": "客廳、起居室"
+        },
+        {
+          "id": "dining-table",
+          "name": "實木餐桌",
+          "nameEn": "Walnut Dining Table",
+          "category": "桌子",
+          "image": "/placeholder/furnishings/dining-table.png",
+          "description": "厚實胡桃木桌板搭配黑鐵桌腳，自然邊保留木材原始輪廓，是全家聚在一起的中心。",
+          "features": [
+            "胡桃實木",
+            "黑鐵桌腳",
+            "自然邊"
+          ],
+          "usage": "餐廳、開放廚房"
+        },
+        {
+          "id": "coffee-table",
+          "name": "洞石茶几",
+          "nameEn": "Travertine Coffee Table",
+          "category": "桌子",
+          "image": "/placeholder/furnishings/coffee-table.png",
+          "description": "天然洞石的孔隙與米色調，讓客廳多一分溫潤的雕塑感，與皮革、布料都好搭。",
+          "features": [
+            "天然石材",
+            "圓角安全",
+            "雕塑造型"
+          ],
+          "usage": "客廳"
+        },
+        {
+          "id": "lounge-chair",
+          "name": "休閒單椅",
+          "nameEn": "Lounge Chair",
+          "category": "椅子",
+          "image": "/placeholder/furnishings/lounge-chair.png",
+          "description": "經典的彎曲木與皮革組合，搭配腳凳就是閱讀角落最舒服的位置。",
+          "features": [
+            "人體工學",
+            "附腳凳",
+            "經典設計"
+          ],
+          "usage": "客廳角落、書房、主臥"
+        },
+        {
+          "id": "pendant-lamp",
+          "name": "設計吊燈",
+          "nameEn": "Pendant Lamp",
+          "category": "燈具",
+          "image": "/placeholder/furnishings/pendant-lamp.png",
+          "description": "手吹燻色玻璃搭配黃銅五金，點亮後光線柔和不刺眼，讓餐桌成為空間焦點。",
+          "features": [
+            "手吹玻璃",
+            "可調光",
+            "黃銅五金"
+          ],
+          "usage": "餐桌上方、中島、玄關"
+        },
+        {
+          "id": "linen-curtain",
+          "name": "棉麻紗簾",
+          "nameEn": "Linen Sheer Curtain",
+          "category": "窗簾",
+          "image": "/placeholder/furnishings/linen-curtain.png",
+          "description": "落地天花軌道安裝，讓窗簾從天花板垂到地面，拉高視覺比例，也把陽光濾得更柔和。",
+          "features": [
+            "天花軌道",
+            "透光不透影",
+            "可搭配遮光簾"
+          ],
+          "usage": "客廳、臥室"
+        },
+        {
+          "id": "smart-home",
+          "name": "智能燈控與電動窗簾",
+          "nameEn": "Smart Home Control",
+          "category": "智能家電",
+          "image": "/placeholder/furnishings/smart-home.png",
+          "description": "一個面板或手機就能控制全室燈光情境、電動窗簾與空調，裝修時預埋線路最省事。",
+          "features": [
+            "情境燈光",
+            "電動窗簾",
+            "語音／手機控制"
+          ],
+          "usage": "全室"
+        }
+      ]
+    },
+    "projects": [
+      {
+        "id": "equilibrium",
+        "title": "靜謐均衡",
+        "titleEn": "Equilibrium — The Sherwood Residence",
+        "category": "住宅空間",
+        "year": "2025",
+        "location": "台北 信義",
+        "cover": "/placeholder/covers/equilibrium.png",
+        "gallery": [
+          "/placeholder/equilibrium/01.jpg",
+          "/placeholder/equilibrium/02.jpg",
+          "/placeholder/equilibrium/03.jpg",
+          "/placeholder/equilibrium/04.jpg",
+          "/placeholder/equilibrium/05.jpg",
+          "/placeholder/equilibrium/09.jpg",
+          "/placeholder/equilibrium/10.jpg",
+          "/placeholder/equilibrium/11.jpg",
+          "/placeholder/equilibrium/12.jpg",
+          "/placeholder/equilibrium/13.jpg",
+          "/placeholder/equilibrium/14.jpg",
+          "/placeholder/equilibrium/15.jpg"
+        ],
+        "info": {
+          "坪數": "58 坪",
+          "類型": "新成屋",
+          "格局": "3 房 2 廳 2 衛",
+          "風格": "現代 × 工業",
+          "工期": "5 個月",
+          "主材": "黑鐵、石材、胡桃木"
+        },
+        "description": [
+          "以「均衡」為命題，將剛硬的工業語彙與溫潤的自然材質交織，營造出沉穩卻不冷冽的居家氛圍。",
+          "公共區以開放式設計串聯玄關、客廳與餐廚，讓光線得以在動線中自由流動；主臥則透過灰階色調與柔軟織品，回歸私密與放鬆的本質。"
+        ],
+        "concept": "在物件與空間的張力之間，尋找屋主日常真正需要的重量與輕盈。",
+        "simulationUrl": "https://yun.kujiale.com/cloud/design/3FO37GC2P829/airoaming"
+      },
+      {
+        "id": "pleasant",
+        "title": "輕盈生活",
+        "titleEn": "Pleasant — The Sherwood Residence",
+        "category": "住宅空間",
+        "year": "2025",
+        "location": "台北 大安",
+        "cover": "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177432693-wg7mkd.jpg",
+        "gallery": [
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177550014-r6sawk.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177411366-subi8h.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177414688-nn26qn.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177417239-9tbg0o.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177419804-o8k7ja.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177422361-amf7qp.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177424952-svc5g8.jpg"
+        ],
+        "info": {
+          "坪數": "26 坪",
+          "類型": "新成屋",
+          "格局": "3 房 2 廳 2 衛",
+          "風格": "現代簡約",
+          "工期": "4 個月",
+          "價格": "170萬"
+        },
+        "description": [
+          "以「輕盈」為基調，採用大面積淺色木皮與霧白塗料，讓整體空間保持視覺上的呼吸感。",
+          "客廳選擇低背沙發搭配細框家具，降低視覺壓迫；餐廚則以中島串接，成為家人日常互動的中心。"
+        ],
+        "concept": "讓家成為一首短詩——省去冗贅，只留下讓人想回家的理由。",
+        "simulationUrl": "https://yun.kujiale.com/cloud/design/3FO38AAOTJ83/show"
+      },
+      {
+        "id": "yihai",
+        "title": "頤海複合居所",
+        "titleEn": "Yihai Compound Residence",
+        "category": "住宅空間",
+        "year": "2025",
+        "location": "新北 林口",
+        "cover": "/placeholder/covers/yihai.png",
+        "gallery": [
+          "/placeholder/yihai/01.jpg",
+          "/placeholder/yihai/02.jpg",
+          "/placeholder/yihai/03.jpg",
+          "/placeholder/yihai/04.jpg",
+          "/placeholder/yihai/05.jpg",
+          "/placeholder/yihai/06.jpg",
+          "/placeholder/yihai/07.jpg",
+          "/placeholder/yihai/08.jpg",
+          "/placeholder/yihai/09.jpg",
+          "/placeholder/yihai/10.jpg",
+          "/placeholder/yihai/11.jpg",
+          "/placeholder/yihai/12.jpg",
+          "/placeholder/yihai/13.jpg",
+          "/placeholder/yihai/14.jpg",
+          "/placeholder/yihai/15.jpg",
+          "/placeholder/yihai/16.jpg",
+          "/placeholder/yihai/17.jpg",
+          "/placeholder/yihai/18.jpg",
+          "/placeholder/yihai/19.jpg",
+          "/placeholder/yihai/20.jpg",
+          "/placeholder/yihai/21.jpg",
+          "/placeholder/yihai/22.jpg",
+          "/placeholder/yihai/23.jpg",
+          "/placeholder/yihai/24.jpg",
+          "/placeholder/yihai/25.jpg",
+          "/placeholder/yihai/26.jpg"
+        ],
+        "info": {
+          "坪數": "75 坪",
+          "類型": "複合式住宅",
+          "格局": "4 房 3 廳 3 衛",
+          "風格": "工業 × 東方",
+          "工期": "7 個月",
+          "主材": "清水模、金屬網、柚木"
+        },
+        "description": [
+          "「複合」不僅指空間的多元機能，更指涉生活與工作的共存。此案業主為跨國創業家，空間必須兼顧接待、辦公與家庭三種狀態。",
+          "透過一道可變動的金屬網隔屏，公共區能在不同時段轉換為招待廳、辦公室或家庭電影院。"
+        ],
+        "concept": "讓一個家，能在二十四小時內擁有三種表情。",
+        "simulationUrl": ""
+      },
+      {
+        "id": "serenity",
+        "title": "靜謐",
+        "titleEn": "Serenity",
+        "category": "住宅空間",
+        "year": "2025",
+        "location": "台北 內湖",
+        "cover": "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177744234-n3bpgj.jpg",
+        "gallery": [
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177724521-6z3kzy.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177727259-92bj5x.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177729868-npkqv0.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177732535-bh4ytc.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177735060-cel5nz.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795177737769-s50i05.jpg"
+        ],
+        "info": {
+          "坪數": "38 坪",
+          "類型": "中古屋翻新",
+          "格局": "2 房 2 廳 2 衛",
+          "風格": "日式現代",
+          "工期": "4 個月",
+          "主材": "天然石材、實木、和紙"
+        },
+        "description": [
+          "屋主為一對將退休的夫妻，期望家能成為日常冥想的場所。設計以「減法」為原則，保留最低限度的家具與陳設。",
+          "光線成為主角——大面積落地窗搭配和紙拉門，讓光影隨時間在地板上緩慢移動。"
+        ],
+        "concept": "真正的靜謐，不是安靜，而是能聽見自己呼吸的節奏。",
+        "simulationUrl": ""
+      },
+      {
+        "id": "lambency",
+        "title": "微光",
+        "titleEn": "Lambency",
+        "category": "住宅空間",
+        "year": "2025",
+        "location": "台北 士林",
+        "cover": "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188144666-fm1wgb.jpg",
+        "gallery": [
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188285192-3qyu21.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188252389-3tdnhb.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188257386-of4h59.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188254870-z4y89r.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188288653-d0unu8.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188262930-opptj6.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188266112-j4hgff.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188270912-kabpmq.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188274087-byxlqk.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188260175-90ayxz.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188277722-q8jr3p.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188281489-qnh8j6.jpg"
+        ],
+        "info": {
+          "坪數": "40 坪",
+          "類型": "新成屋",
+          "格局": "3 房 2 廳 2 衛 露臺戶",
+          "風格": "現代輕奢",
+          "工期": "5 個月",
+          "價格": "230萬"
+        },
+        "description": [
+          "以「光」為核心，全室以反射性材質為主軸——灰玻、拋光石材、金屬。讓人造光與自然光得以互相折射、疊加。",
+          "晚間開啟間接照明後，整個空間呈現出微微發光的感覺，如同將屋主最珍愛的那一刻黃昏永久保存。"
+        ],
+        "concept": "家是光的容器。",
+        "simulationUrl": "https://720.3vjia.com/S128450434?lang=zh-CN",
+        "constructionPhotos": [
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516131923-3iu0lv.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516128143-acrnry.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516123240-axj0jy.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516119375-qmop4h.jpg"
+        ]
+      },
+      {
+        "id": "gathering",
+        "title": "小窩",
+        "titleEn": "Gathering — The Village Residence",
+        "category": "住宅空間",
+        "year": "2025",
+        "location": "桃園",
+        "cover": "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795179318468-z1m4o8.jpg",
+        "gallery": [
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795179090003-jy82fj.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795179092606-acxory.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795179095346-6xoz1p.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795179098209-qmmw0e.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795179101036-cyqzs3.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795179103023-dzhm8x.jpg"
+        ],
+        "info": {
+          "坪數": "20 坪",
+          "類型": "公寓",
+          "格局": "2 房 2 廳 1 衛",
+          "風格": "現代 ",
+          "工期": "6 個月",
+          "價格": "120萬"
+        },
+        "description": [
+          "設計命題是：如何讓每個人都保有自己的節奏，卻仍能在某些片刻自然聚集。",
+          "以「窩心」為意象，重新規劃屬於小空間也能有的舒適。"
+        ],
+        "concept": "小空間也能有窩心的感覺",
+        "simulationUrl": "https://www.kujiale.com/cloud/design/3FO38571Q0WK/airoaming?gs.nav.type=auto-site"
+      },
+      {
+        "id": "aurora",
+        "title": "極光居所",
+        "titleEn": "Aurora House",
+        "category": "住宅空間",
+        "year": "2023",
+        "location": "台中",
+        "cover": "/placeholder/covers/aurora.png",
+        "gallery": [
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516804719-sttp5r.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516810485-uwxu1q.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516782592-36meud.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516788110-59kpps.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516794459-ewaxaw.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516799556-xwzul4.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516815787-j91ntp.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795516821588-vijspi.jpg"
+        ],
+        "info": {
+          "坪數": "50 坪",
+          "類型": "新成屋",
+          "格局": "3 房 2 廳 2 衛",
+          "風格": "現代北歐",
+          "工期": "5 個月",
+          "主材": "白橡木、大理石、鐵件"
+        },
+        "description": [
+          "以北歐的自然意象為靈感，將極光的色彩光譜轉化為空間中的漸層色系——淺灰、冷藍、溫白。",
+          "兒童房採用可變性高的收納系統，讓空間能隨孩子成長而重新配置。"
+        ],
+        "concept": "讓家裡保有一點遠方。",
+        "simulationUrl": ""
+      },
+      {
+        "id": "no2311",
+        "title": "和諧",
+        "titleEn": "harmonious",
+        "category": "住宅",
+        "year": "2023",
+        "location": "台中",
+        "cover": "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188800179-bt5ohc.jpg",
+        "gallery": [
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188749887-avvum7.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188754285-5ksvrp.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188758766-dk3sev.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188762564-lasy5v.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188767397-whmtbl.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188772704-hi703x.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188777800-ru5p24.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188781887-353ska.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795188788223-gen7e8.jpg"
+        ],
+        "info": {
+          "坪數": "17 坪",
+          "類型": "住宅",
+          "格局": "2房2廳1衛",
+          "風格": "工業現代",
+          "工期": "3 個月",
+          "價格": "90萬"
+        },
+        "description": [
+          "一間新創公司的辦公空間。業主希望空間本身就能成為面試與招募時的品牌宣言。",
+          "保留原始樓板與天花的裸露感，以鐵件與木作構築出可靈活調整的工作區；會議室採用玻璃隔間但搭配投射紋理，兼顧開放與隱私。"
+        ],
+        "concept": "工作場域，也能是一件可以被使用的作品。",
+        "simulationUrl": "https://720.3vjia.com/S148760106?lang=zh-CN"
+      },
+      {
+        "id": "inner-peace",
+        "title": "典雅之風",
+        "titleEn": "Inner Peace",
+        "category": "住宅空間",
+        "year": "2026",
+        "location": "台中",
+        "cover": "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253314246-0zo4r1.jpg",
+        "gallery": [
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253248709-qrjfnu.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253230476-i43zj6.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253233010-riyuwy.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253235047-399o8o.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253237287-xkyie1.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253240088-qdwrcy.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253242913-ypxrvj.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253245949-w89khs.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253251234-xyglic.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253253910-8ma5th.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253256538-q9ji6u.jpg",
+          "https://mmi2b8lwb3axivst.public.blob.vercel-storage.com/images/1795253259433-vxdn21.jpg"
+        ],
+        "info": {
+          "坪數": "80 坪",
+          "類型": "自地自建",
+          "格局": "4 房 2 廳 2 衛",
+          "風格": "現代",
+          "工期": "5 個月",
+          "價格": "300萬"
+        },
+        "description": [
+          "業主為科技業主管，長期處於高壓工作節奏。家，必須是能讓神經真正放鬆的場所。",
+          "全室採用簡單的白色以及淺色木頭點綴。"
+        ],
+        "concept": "心之所安，便是吾鄉。",
+        "simulationUrl": "https://yun.kujiale.com/design/3FO3DJAQSWYX/show"
+      }
+    ]
+  }
 }

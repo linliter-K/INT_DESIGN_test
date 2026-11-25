@@ -379,8 +379,8 @@ export default function AdminEditor({
             <Section title="頁尾">
               <TextArea label="品牌簡介" rows={2} value={content.footer.tagline} onChange={(v) => set("footer", { ...content.footer, tagline: v })} />
               <Grid2>
-                <TextInput label="Instagram 網址" placeholder="https://instagram.com/…" hint="留空就不顯示" value={content.footer.instagram} onChange={(v) => set("footer", { ...content.footer, instagram: v })} />
-                <TextInput label="Facebook 網址" placeholder="https://facebook.com/…" hint="留空就不顯示" value={content.footer.facebook} onChange={(v) => set("footer", { ...content.footer, facebook: v })} />
+                <TextInput label="Instagram 網址" placeholder="https://instagram.com/…" hint="導覽列、聯絡區、頁尾的圖示一起更新；留空就不顯示" value={content.footer.instagram} onChange={(v) => set("footer", { ...content.footer, instagram: v })} />
+                <TextInput label="Facebook 網址" placeholder="https://facebook.com/…" hint="導覽列、聯絡區、頁尾的圖示一起更新；留空就不顯示" value={content.footer.facebook} onChange={(v) => set("footer", { ...content.footer, facebook: v })} />
               </Grid2>
               <TextInput label="右下角標語" value={content.footer.slogan} onChange={(v) => set("footer", { ...content.footer, slogan: v })} />
             </Section>

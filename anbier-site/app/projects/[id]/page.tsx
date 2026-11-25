@@ -182,6 +182,7 @@ export default async function ProjectPage({
               </div>
               <ProjectGallery
                 images={constructionPhotos}
+                layout="grid3"
                 title={`${project.title}・施工`}
                 href={`/projects/${project.id}`}
               />

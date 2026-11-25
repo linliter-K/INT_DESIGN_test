@@ -9,11 +9,15 @@ export default function ProjectGallery({
   images,
   title,
   href,
+  layout = "hero",
 }: {
   images: string[];
   title: string;
   href: string;
+  // hero：首張滿版＋兩欄；grid3：一行三張（實拍施工圖用，張數多時較好瀏覽）
+  layout?: "hero" | "grid3";
 }) {
+  const isGrid3 = layout === "grid3";
   const moodItem = (src: string, i: number) => ({
     kind: "project" as const,
     image: src,
@@ -54,9 +58,13 @@ export default function ProjectGallery({
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+      <div
+        className={`grid gap-2 md:gap-4 ${
+          isGrid3 ? "grid-cols-2 md:grid-cols-3" : "grid-cols-1 md:grid-cols-2"
+        }`}
+      >
         {images.map((src, i) => {
-          const isHero = i === 0;
+          const isHero = !isGrid3 && i === 0;
           return (
             <motion.div
               key={src}
@@ -81,7 +89,13 @@ export default function ProjectGallery({
                 src={src}
                 alt={`${title} ${i + 1}`}
                 fill
-                sizes={isHero ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
+                sizes={
+                  isHero
+                    ? "100vw"
+                    : isGrid3
+                      ? "(min-width: 768px) 33vw, 50vw"
+                      : "(min-width: 768px) 50vw, 100vw"
+                }
                 className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 transition-colors duration-300" />

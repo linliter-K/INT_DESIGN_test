@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SocialIcons from "./SocialIcons";
 import { getContent } from "../lib/content/store";
 
 export default async function Footer() {
@@ -7,8 +8,6 @@ export default async function Footer() {
   const contactLinks = [
     { href: `tel:${contact.phone.replace(/[^\d+]/g, "")}`, label: contact.phone },
     { href: `mailto:${contact.email}`, label: contact.email },
-    ...(footer.instagram ? [{ href: footer.instagram, label: "Instagram" }] : []),
-    ...(footer.facebook ? [{ href: footer.facebook, label: "Facebook" }] : []),
   ];
 
   return (
@@ -50,7 +49,13 @@ export default async function Footer() {
             }))}
           />
 
-          <FooterCol title="聯絡資訊" links={contactLinks} />
+          <FooterCol title="聯絡資訊" links={contactLinks}>
+            <SocialIcons
+              instagram={footer.instagram}
+              facebook={footer.facebook}
+              className="mt-4"
+            />
+          </FooterCol>
         </div>
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
@@ -78,9 +83,11 @@ const PER_COLUMN = 4;
 function FooterCol({
   title,
   links,
+  children,
 }: {
   title: string;
   links: { href: string; label: string }[];
+  children?: React.ReactNode;
 }) {
   const columns: (typeof links)[] = [];
   for (let i = 0; i < links.length; i += PER_COLUMN) {
@@ -105,6 +112,7 @@ function FooterCol({
           </ul>
         ))}
       </div>
+      {children}
     </div>
   );
 }

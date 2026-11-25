@@ -5,14 +5,17 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { Heart, X } from "lucide-react";
 import RichText from "./RichText";
+import SocialIcons, { type SocialLinks } from "./SocialIcons";
 import { useMoodboard } from "../lib/moodboard";
 import { submitInquiry } from "../actions/inquiry";
 import type { SiteContent } from "../lib/content/types";
 
 export default function Contact({
   contact,
+  social,
 }: {
   contact: SiteContent["contact"];
+  social: SocialLinks;
 }) {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -85,6 +88,7 @@ export default function Contact({
               </div>
               <p className="text-foreground/80">{contact.phone}</p>
               <p className="text-foreground/80">{contact.email}</p>
+              <SocialIcons {...social} size={18} className="mt-3" />
             </div>
             <div>
               <div className="text-[10px] tracking-[0.4em] text-accent mb-2">
