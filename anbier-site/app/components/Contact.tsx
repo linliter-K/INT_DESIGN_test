@@ -88,7 +88,7 @@ export default function Contact({
               </div>
               <p className="text-foreground/80">{contact.phone}</p>
               <p className="text-foreground/80">{contact.email}</p>
-              <SocialIcons {...social} size={18} className="mt-3" />
+              <SocialIcons {...social} size={26} className="mt-4" />
             </div>
             <div>
               <div className="text-[10px] tracking-[0.4em] text-accent mb-2">

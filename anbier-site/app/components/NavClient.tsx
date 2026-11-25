@@ -129,7 +129,7 @@ export default function NavClient({ social }: { social: SocialLinks }) {
               >
                 會員登入
               </Link>
-              <SocialIcons {...social} size={18} className="justify-center gap-6 pt-1" />
+              <SocialIcons {...social} size={24} className="justify-center gap-6 pt-1" />
             </div>
           </motion.div>
         )}

@@ -22,7 +22,7 @@ function FacebookIcon({ size }: { size: number }) {
 export default function SocialIcons({
   instagram,
   facebook,
-  size = 16,
+  size = 22,
   className = "",
 }: SocialLinks & { size?: number; className?: string }) {
   const items = [
@@ -34,7 +34,7 @@ export default function SocialIcons({
   if (items.length === 0) return null;
 
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div className={`flex items-center gap-4 ${className}`}>
       {items.map(({ href, label, Icon }) => (
         <a
           key={label}
